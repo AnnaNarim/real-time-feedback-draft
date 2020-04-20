@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import  { gql } from 'apollo-boost'
+import { gql } from 'apollo-boost'
 
 class CreatePage extends Component {
   state = {
@@ -38,7 +38,7 @@ class CreatePage extends Component {
             type="submit"
             value="Create"
           />
-          <a className="f6 pointer" onClick={this.props.history.goBack}>
+          <a className="f6 pointer" href='#' onClick={this.props.history.goBack}>
             or cancel
           </a>
         </form>
@@ -58,10 +58,10 @@ class CreatePage extends Component {
 
 const CREATE_DRAFT_MUTATION = gql`
   mutation CreateDraftMutation($title: String!, $text: String!) {
-    createDraft(title: $title, text: $text) {
+    createDraft(title: $title, content: $text) {
       id
       title
-      text
+      content
     }
   }
 `

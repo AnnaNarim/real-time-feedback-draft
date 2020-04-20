@@ -21,6 +21,7 @@ const auth = {
     if (!passwordValid) {
       throw new Error('Invalid password')
     }
+
     return {
       token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
       user,
