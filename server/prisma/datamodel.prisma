@@ -5,6 +5,7 @@ type Post {
   published: Boolean! @default(value: false)
   title: String!
   content: String!
+  answerType: String!
   author: User!
 }
 

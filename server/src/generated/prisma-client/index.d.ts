@@ -146,7 +146,9 @@ export type PostOrderByInput =
   | "title_ASC"
   | "title_DESC"
   | "content_ASC"
-  | "content_DESC";
+  | "content_DESC"
+  | "answerType_ASC"
+  | "answerType_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -229,6 +231,20 @@ export interface PostWhereInput {
   content_not_starts_with?: String;
   content_ends_with?: String;
   content_not_ends_with?: String;
+  answerType?: String;
+  answerType_not?: String;
+  answerType_in?: String[] | String;
+  answerType_not_in?: String[] | String;
+  answerType_lt?: String;
+  answerType_lte?: String;
+  answerType_gt?: String;
+  answerType_gte?: String;
+  answerType_contains?: String;
+  answerType_not_contains?: String;
+  answerType_starts_with?: String;
+  answerType_not_starts_with?: String;
+  answerType_ends_with?: String;
+  answerType_not_ends_with?: String;
   author?: UserWhereInput;
   AND?: PostWhereInput[] | PostWhereInput;
   OR?: PostWhereInput[] | PostWhereInput;
@@ -309,6 +325,7 @@ export interface PostCreateInput {
   published?: Boolean;
   title: String;
   content: String;
+  answerType: String;
   author: UserCreateOneWithoutPostsInput;
 }
 
@@ -327,6 +344,7 @@ export interface PostUpdateInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  answerType?: String;
   author?: UserUpdateOneRequiredWithoutPostsInput;
 }
 
@@ -352,6 +370,7 @@ export interface PostUpdateManyMutationInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  answerType?: String;
 }
 
 export interface UserCreateInput {
@@ -370,6 +389,7 @@ export interface PostCreateWithoutAuthorInput {
   published?: Boolean;
   title: String;
   content: String;
+  answerType: String;
 }
 
 export interface UserUpdateInput {
@@ -405,6 +425,7 @@ export interface PostUpdateWithoutAuthorDataInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  answerType?: String;
 }
 
 export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -474,6 +495,20 @@ export interface PostScalarWhereInput {
   content_not_starts_with?: String;
   content_ends_with?: String;
   content_not_ends_with?: String;
+  answerType?: String;
+  answerType_not?: String;
+  answerType_in?: String[] | String;
+  answerType_not_in?: String[] | String;
+  answerType_lt?: String;
+  answerType_lte?: String;
+  answerType_gt?: String;
+  answerType_gte?: String;
+  answerType_contains?: String;
+  answerType_not_contains?: String;
+  answerType_starts_with?: String;
+  answerType_not_starts_with?: String;
+  answerType_ends_with?: String;
+  answerType_not_ends_with?: String;
   AND?: PostScalarWhereInput[] | PostScalarWhereInput;
   OR?: PostScalarWhereInput[] | PostScalarWhereInput;
   NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
@@ -488,6 +523,7 @@ export interface PostUpdateManyDataInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  answerType?: String;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -529,6 +565,7 @@ export interface Post {
   published: Boolean;
   title: String;
   content: String;
+  answerType: String;
 }
 
 export interface PostPromise extends Promise<Post>, Fragmentable {
@@ -538,6 +575,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   published: () => Promise<Boolean>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  answerType: () => Promise<String>;
   author: <T = UserPromise>() => T;
 }
 
@@ -550,6 +588,7 @@ export interface PostSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
+  answerType: () => Promise<AsyncIterator<String>>;
   author: <T = UserSubscription>() => T;
 }
 
@@ -763,6 +802,7 @@ export interface PostPreviousValues {
   published: Boolean;
   title: String;
   content: String;
+  answerType: String;
 }
 
 export interface PostPreviousValuesPromise
@@ -774,6 +814,7 @@ export interface PostPreviousValuesPromise
   published: () => Promise<Boolean>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  answerType: () => Promise<String>;
 }
 
 export interface PostPreviousValuesSubscription
@@ -785,6 +826,7 @@ export interface PostPreviousValuesSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
+  answerType: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {

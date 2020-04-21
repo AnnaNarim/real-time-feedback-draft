@@ -8,7 +8,7 @@ type Query {
 type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
-  createDraft(title: String!, content: String!): Post!
+  createDraft(title: String!, content: String!, answerType: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
 }
@@ -34,5 +34,6 @@ type Post {
   published: Boolean!
   title: String!
   content: String!
+  answerType : String!
   author: User!
 }

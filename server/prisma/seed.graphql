@@ -8,6 +8,7 @@ mutation {
       create: {
         title: "Join us for GraphQL Conf 2019 in Berlin"
         content: "https://www.graphqlconf.org/"
+        answerType: "poll"
         published: true
       }
     }
@@ -23,10 +24,12 @@ mutation {
       create: [{
         title: "Subscribe to GraphQL Weekly for community news"
         content: "https://graphqlweekly.com/"
+        answerType: "poll"
         published: true
       } {
         title: "Follow Prisma on Twitter"
         content: "https://twitter.com/prisma"
+        answerType: "poll"
       }]
     }
   }) {

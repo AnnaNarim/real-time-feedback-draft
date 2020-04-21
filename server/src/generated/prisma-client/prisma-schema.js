@@ -54,6 +54,7 @@ type Post {
   published: Boolean!
   title: String!
   content: String!
+  answerType: String!
   author: User!
 }
 
@@ -67,6 +68,7 @@ input PostCreateInput {
   published: Boolean
   title: String!
   content: String!
+  answerType: String!
   author: UserCreateOneWithoutPostsInput!
 }
 
@@ -79,6 +81,7 @@ input PostCreateWithoutAuthorInput {
   published: Boolean
   title: String!
   content: String!
+  answerType: String!
 }
 
 type PostEdge {
@@ -99,6 +102,8 @@ enum PostOrderByInput {
   title_DESC
   content_ASC
   content_DESC
+  answerType_ASC
+  answerType_DESC
 }
 
 type PostPreviousValues {
@@ -108,6 +113,7 @@ type PostPreviousValues {
   published: Boolean!
   title: String!
   content: String!
+  answerType: String!
 }
 
 input PostScalarWhereInput {
@@ -171,6 +177,20 @@ input PostScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  answerType: String
+  answerType_not: String
+  answerType_in: [String!]
+  answerType_not_in: [String!]
+  answerType_lt: String
+  answerType_lte: String
+  answerType_gt: String
+  answerType_gte: String
+  answerType_contains: String
+  answerType_not_contains: String
+  answerType_starts_with: String
+  answerType_not_starts_with: String
+  answerType_ends_with: String
+  answerType_not_ends_with: String
   AND: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   NOT: [PostScalarWhereInput!]
@@ -198,6 +218,7 @@ input PostUpdateInput {
   published: Boolean
   title: String
   content: String
+  answerType: String
   author: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -205,12 +226,14 @@ input PostUpdateManyDataInput {
   published: Boolean
   title: String
   content: String
+  answerType: String
 }
 
 input PostUpdateManyMutationInput {
   published: Boolean
   title: String
   content: String
+  answerType: String
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -233,6 +256,7 @@ input PostUpdateWithoutAuthorDataInput {
   published: Boolean
   title: String
   content: String
+  answerType: String
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -307,6 +331,20 @@ input PostWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  answerType: String
+  answerType_not: String
+  answerType_in: [String!]
+  answerType_not_in: [String!]
+  answerType_lt: String
+  answerType_lte: String
+  answerType_gt: String
+  answerType_gte: String
+  answerType_contains: String
+  answerType_not_contains: String
+  answerType_starts_with: String
+  answerType_not_starts_with: String
+  answerType_ends_with: String
+  answerType_not_ends_with: String
   author: UserWhereInput
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]

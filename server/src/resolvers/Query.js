@@ -7,7 +7,7 @@ const Query = {
   drafts(parent, args, context) {
     const id = getUserId(context)
     const where = {
-      published: false,
+      // published: false,
       author: {
         id,
       },

@@ -1,0 +1,69 @@
+import React, {Fragment, useState} from 'react'
+import Post from '../../components/Post/Post'
+import {gql} from 'apollo-boost'
+import {useQuery} from "@apollo/react-hooks";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {makeStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
+import Container from "@material-ui/core/Container";
+
+const DRAFTS_QUERY = gql`
+    query DraftsQuery {
+        drafts {
+            id
+            content
+            title
+            published
+            author {
+                name
+            }
+        }
+    }
+`;
+
+const useStyles = makeStyles((theme) => ({
+    backdrop : {
+        zIndex : theme.zIndex.drawer + 1
+    },
+}));
+
+const DraftsPage = (props) => {
+    const {location} = props,
+        {state = {}} = location,
+        {shouldRefetch = false} = state;
+
+    const [needRefetch, setNeedRefetch] = useState(shouldRefetch);
+
+    const classes = useStyles();
+    const {loading, error, data = {}, refetch} = useQuery(DRAFTS_QUERY, {
+        options : {fetchPolicy : 'network-only',}
+    });
+    const {drafts = []} = data;
+
+    if(needRefetch) {
+        refetch();
+        setNeedRefetch(false);
+    }
+
+    return (
+        <Fragment>
+            <Backdrop className={classes.backdrop} open={loading}>
+                <CircularProgress color="inherit"/>
+            </Backdrop>
+            <Container>
+                <h1>Drafts</h1>
+                {drafts.map(draft => (
+                    <Post
+                        key={draft.id}
+                        post={draft}
+                        refresh={() => refetch()}
+                        isDraft={!draft.published}
+                    />
+                ))}
+            </Container>
+        </Fragment>
+    )
+};
+
+export default withRouter(DraftsPage);
