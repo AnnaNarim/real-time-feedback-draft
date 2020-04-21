@@ -8,6 +8,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+
 const DRAFTS_QUERY = gql`
     query DraftsQuery {
         drafts {
@@ -25,8 +28,9 @@ const DRAFTS_QUERY = gql`
 const useStyles = makeStyles((theme) => ({
     backdrop : {
         zIndex : theme.zIndex.drawer + 1
-    },
+    }
 }));
+
 
 const DraftsPage = (props) => {
     const {location} = props,
@@ -53,14 +57,18 @@ const DraftsPage = (props) => {
             </Backdrop>
             <Container>
                 <h1>Drafts</h1>
-                {drafts.map(draft => (
-                    <Post
-                        key={draft.id}
-                        post={draft}
-                        refresh={() => refetch()}
-                        isDraft={!draft.published}
-                    />
-                ))}
+
+                <GridList cellHeight={"auto"} cols={3} spacing={10}>
+                    {drafts.map((draft) => (
+                        <GridListTile key={draft.id}>
+                            <Post
+                                post={draft}
+                                refresh={() => refetch()}
+                                isDraft={!draft.published}
+                            />
+                        </GridListTile>
+                    ))}
+                </GridList>
             </Container>
         </Fragment>
     )

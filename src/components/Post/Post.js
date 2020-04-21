@@ -1,31 +1,77 @@
-import React from 'react'
-import {makeStyles} from "@material-ui/core/styles";
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 import {Link} from "react-router-dom";
+import EditIcon from '@material-ui/icons/EditOutlined';
+import IconButton from "@material-ui/core/IconButton";
+import {withStyles} from "@material-ui/core";
+import DeletePost from "./PostDelete";
+import UpdatePost from "./PostEdit";
 
-const useStyles = makeStyles((theme) => ({
-    backdrop : {
-        zIndex : theme.zIndex.drawer + 1,
-        color  : '#fff',
+const useStyles = makeStyles({
+    root  : {
+        maxWidth : 345,
     },
-}));
+    media : {
+        height : 140,
+    },
+});
 
-const Post = ({isDraft, post}) => {
+const GreenSwitch = withStyles({
+    switchBase: {
+        color: '#fafafa',
+        '&$checked': {
+            color: 'rgb(26,148,49)',
+        },
+        '&$checked + $track': {
+            backgroundColor: 'rgb(26,148,49)'
+        },
+    },
+    checked: {},
+    track: {},
+})(Switch);
+
+export default function Post({isDraft, post,refresh}) {
     const classes = useStyles();
-    const {title, id, text, author} = post;
+
+
+    const {title, id, content, author} = post;
 
     return (
-        <Link className="no-underline ma1" to={`/post/${id}`}>
-            <article className="bb b--black-10">
-                <div className="flex flex-column flex-row-ns">
-                    <div className="w-100 w-60-ns pl3-ns">
-                        <h1 className="f3 fw1 baskerville mt0 lh-title">{isDraft ? `${title} (Draft)` : title}</h1>
-                        <p className="f6 f5-l lh-copy">{text}</p>
-                        <p className="f6 lh-copy mv0">By {author.name}</p>
-                    </div>
-                </div>
-            </article>
-        </Link>
-    )
-};
+        <Card className={classes.root} elevation={3}>
+            <CardActionArea component={Link} to={`/post/${id}`}>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2" noWrap>
+                        {title}
 
-export default Post;
+                        {/*{author.name}*/}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {content}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+            <CardActions>
+                <FormControlLabel
+                    control={
+                        <GreenSwitch
+                            // checked={!isDraft}
+                            // onChange={()=>{}}
+                            name="isDraft"
+                            color="secondary"
+                        />
+                    }
+                    label="Publish"
+                />
+                <DeletePost title={title} id={id} refresh={refresh}/>
+                <UpdatePost  title={title} id={id}  content={content} refresh={refresh}/>
+            </CardActions>
+        </Card>
+    );
+}

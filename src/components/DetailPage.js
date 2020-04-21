@@ -96,14 +96,6 @@ const PUBLISH_MUTATION = gql`
   }
 `
 
-const DELETE_MUTATION = gql`
-  mutation deletePost($id: ID!) {
-    deletePost(id: $id) {
-      id
-    }
-  }
-`
-
 export default compose(
   graphql(POST_QUERY, {
     name: 'postQuery',
@@ -115,9 +107,6 @@ export default compose(
   }),
   graphql(PUBLISH_MUTATION, {
     name: 'publishDraft',
-  }),
-  graphql(DELETE_MUTATION, {
-    name: 'deletePost',
   }),
   withRouter,
 )(DetailPage)
