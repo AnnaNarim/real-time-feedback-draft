@@ -87,7 +87,7 @@ function FullScreenDialog({renderQr}) {
         setOpen(false);
     };
 
-    const size = width / 2 > height ? width / 2 : height;
+    const size = width / 2;
 
     return (
         <div>
@@ -104,7 +104,7 @@ function FullScreenDialog({renderQr}) {
                     justifyItems : "center",
                     margin       : 10
                 }}>
-                    {renderQr(size/2)}
+                    {renderQr(size / 1.3)}
                 </div>
             </Dialog>
         </div>
