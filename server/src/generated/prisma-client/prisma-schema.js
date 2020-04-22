@@ -13,6 +13,8 @@ type BatchPayload {
 
 scalar DateTime
 
+scalar Json
+
 scalar Long
 
 type Mutation {
@@ -56,6 +58,7 @@ type Post {
   content: String!
   answerType: String!
   author: User!
+  fields: Json!
 }
 
 type PostConnection {
@@ -70,6 +73,7 @@ input PostCreateInput {
   content: String!
   answerType: String!
   author: UserCreateOneWithoutPostsInput!
+  fields: Json!
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -82,6 +86,7 @@ input PostCreateWithoutAuthorInput {
   title: String!
   content: String!
   answerType: String!
+  fields: Json!
 }
 
 type PostEdge {
@@ -104,6 +109,8 @@ enum PostOrderByInput {
   content_DESC
   answerType_ASC
   answerType_DESC
+  fields_ASC
+  fields_DESC
 }
 
 type PostPreviousValues {
@@ -114,6 +121,7 @@ type PostPreviousValues {
   title: String!
   content: String!
   answerType: String!
+  fields: Json!
 }
 
 input PostScalarWhereInput {
@@ -220,6 +228,7 @@ input PostUpdateInput {
   content: String
   answerType: String
   author: UserUpdateOneRequiredWithoutPostsInput
+  fields: Json
 }
 
 input PostUpdateManyDataInput {
@@ -227,6 +236,7 @@ input PostUpdateManyDataInput {
   title: String
   content: String
   answerType: String
+  fields: Json
 }
 
 input PostUpdateManyMutationInput {
@@ -234,6 +244,7 @@ input PostUpdateManyMutationInput {
   title: String
   content: String
   answerType: String
+  fields: Json
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -257,6 +268,7 @@ input PostUpdateWithoutAuthorDataInput {
   title: String
   content: String
   answerType: String
+  fields: Json
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {

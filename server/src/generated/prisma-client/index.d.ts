@@ -148,7 +148,9 @@ export type PostOrderByInput =
   | "content_ASC"
   | "content_DESC"
   | "answerType_ASC"
-  | "answerType_DESC";
+  | "answerType_DESC"
+  | "fields_ASC"
+  | "fields_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -327,6 +329,7 @@ export interface PostCreateInput {
   content: String;
   answerType: String;
   author: UserCreateOneWithoutPostsInput;
+  fields: Json;
 }
 
 export interface UserCreateOneWithoutPostsInput {
@@ -346,6 +349,7 @@ export interface PostUpdateInput {
   content?: String;
   answerType?: String;
   author?: UserUpdateOneRequiredWithoutPostsInput;
+  fields?: Json;
 }
 
 export interface UserUpdateOneRequiredWithoutPostsInput {
@@ -371,6 +375,7 @@ export interface PostUpdateManyMutationInput {
   title?: String;
   content?: String;
   answerType?: String;
+  fields?: Json;
 }
 
 export interface UserCreateInput {
@@ -390,6 +395,7 @@ export interface PostCreateWithoutAuthorInput {
   title: String;
   content: String;
   answerType: String;
+  fields: Json;
 }
 
 export interface UserUpdateInput {
@@ -426,6 +432,7 @@ export interface PostUpdateWithoutAuthorDataInput {
   title?: String;
   content?: String;
   answerType?: String;
+  fields?: Json;
 }
 
 export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -524,6 +531,7 @@ export interface PostUpdateManyDataInput {
   title?: String;
   content?: String;
   answerType?: String;
+  fields?: Json;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -566,6 +574,7 @@ export interface Post {
   title: String;
   content: String;
   answerType: String;
+  fields: Json;
 }
 
 export interface PostPromise extends Promise<Post>, Fragmentable {
@@ -577,6 +586,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   content: () => Promise<String>;
   answerType: () => Promise<String>;
   author: <T = UserPromise>() => T;
+  fields: () => Promise<Json>;
 }
 
 export interface PostSubscription
@@ -590,6 +600,7 @@ export interface PostSubscription
   content: () => Promise<AsyncIterator<String>>;
   answerType: () => Promise<AsyncIterator<String>>;
   author: <T = UserSubscription>() => T;
+  fields: () => Promise<AsyncIterator<Json>>;
 }
 
 export interface User {
@@ -803,6 +814,7 @@ export interface PostPreviousValues {
   title: String;
   content: String;
   answerType: String;
+  fields: Json;
 }
 
 export interface PostPreviousValuesPromise
@@ -815,6 +827,7 @@ export interface PostPreviousValuesPromise
   title: () => Promise<String>;
   content: () => Promise<String>;
   answerType: () => Promise<String>;
+  fields: () => Promise<Json>;
 }
 
 export interface PostPreviousValuesSubscription
@@ -827,6 +840,7 @@ export interface PostPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
   answerType: () => Promise<AsyncIterator<String>>;
+  fields: () => Promise<AsyncIterator<Json>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -907,6 +921,8 @@ export type String = string;
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
+
+export type Json = any;
 
 export type Long = string;
 

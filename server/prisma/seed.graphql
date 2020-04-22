@@ -10,6 +10,7 @@ mutation {
         content: "https://www.graphqlconf.org/"
         answerType: "poll"
         published: true
+        fields: { "name": "John", "age": 30, "city": "New York" }
       }
     }
   }) {
@@ -24,12 +25,14 @@ mutation {
       create: [{
         title: "Subscribe to GraphQL Weekly for community news"
         content: "https://graphqlweekly.com/"
-        answerType: "poll"
+        answerType: "text"
         published: true
+        fields: { "name": "John", "age": 30, "city": "New York" }
       } {
         title: "Follow Prisma on Twitter"
         content: "https://twitter.com/prisma"
         answerType: "poll"
+        fields: { "name": "John", "age": 30, "city": "New York" }
       }]
     }
   }) {
