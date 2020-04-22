@@ -10,7 +10,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   createDraft(title: String!, content: String!, answerType: String!): Post!
   updateDraft(id: ID!, title: String!, content: String!): Post!
-  publish(id: ID!): Post!
+  publish(id: ID!,published:Boolean!): Post!
   deletePost(id: ID!): Post!
 }
 

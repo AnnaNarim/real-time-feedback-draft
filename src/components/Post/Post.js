@@ -8,36 +8,18 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import {Link} from "react-router-dom";
-import EditIcon from '@material-ui/icons/EditOutlined';
-import IconButton from "@material-ui/core/IconButton";
 import {withStyles} from "@material-ui/core";
 import DeletePost from "./PostDelete";
 import UpdatePost from "./PostEdit";
+import PublishPost from "./PostPublish";
 
 const useStyles = makeStyles({
     root  : {
-        maxWidth : 345,
-    },
-    media : {
-        height : 140,
-    },
+        margin : 15
+    }
 });
 
-const GreenSwitch = withStyles({
-    switchBase: {
-        color: '#fafafa',
-        '&$checked': {
-            color: 'rgb(26,148,49)',
-        },
-        '&$checked + $track': {
-            backgroundColor: 'rgb(26,148,49)'
-        },
-    },
-    checked: {},
-    track: {},
-})(Switch);
-
-export default function Post({isDraft, post,refresh}) {
+export default function Post({isPublished, post,refresh}) {
     const classes = useStyles();
 
 
@@ -57,18 +39,8 @@ export default function Post({isDraft, post,refresh}) {
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <FormControlLabel
-                    control={
-                        <GreenSwitch
-                            // checked={!isDraft}
-                            // onChange={()=>{}}
-                            name="isDraft"
-                            color="secondary"
-                        />
-                    }
-                    label="Publish"
-                />
+            <CardActions style={{justifyContent : "flex-end"}}>
+                <PublishPost id={id} isPublished={isPublished} refresh={refresh} />
                 <DeletePost title={title} id={id} refresh={refresh}/>
                 <UpdatePost  title={title} id={id}  content={content} refresh={refresh}/>
             </CardActions>

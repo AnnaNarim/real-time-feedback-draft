@@ -87,11 +87,10 @@ const EditPostConfirmDialog = ({title : PropsTitle, content : PropsContent, onCo
     };
 
     const handleOk = () => {
-        setOpen(false);
-
         const newValidInfo = validateForm(info);
         if(newValidInfo.isValid === true) {
             onConfirm(info);
+            setOpen(false);
         } else {
             setValidInfo(newValidInfo)
         }

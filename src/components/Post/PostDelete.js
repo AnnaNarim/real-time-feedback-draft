@@ -43,7 +43,7 @@ const DeletePost = ({title, id, refresh}) => {
             title={title}
             onConfirm={() => deletePost({variables : {id}}).then(() => {
                 setShowConfirmDialog(false);
-                refresh()
+                refresh();
             })}
             onClose={() => setShowConfirmDialog(false)}
         /> : null}

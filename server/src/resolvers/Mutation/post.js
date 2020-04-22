@@ -11,7 +11,7 @@ const post = {
     })
   },
 
-  async publish(parent, { id }, context) {
+  async publish(parent, { id,published }, context) {
     const userId = getUserId(context)
     const postExists = await context.prisma.$exists.post({
       id,
@@ -24,7 +24,7 @@ const post = {
     return context.prisma.updatePost(
       {
         where: { id },
-        data: { published: true },
+        data: { published },
       },
     )
   },

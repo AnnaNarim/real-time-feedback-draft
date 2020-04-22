@@ -29,12 +29,6 @@ const AuthenticatedNavBar = () => {
         <Button component={Link} to={CREATE_NEW_POST}>
             Create New Post
         </Button>
-        <Button component={Link} to={BLOG}>
-            Blog
-        </Button>
-        <Button component={Link} to={DRAFTS}>
-            Feed
-        </Button>
         <Button component={Link} to={DRAFTS}>
             Drafts
         </Button>

@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import PrivateRoute from "./PrivateRoute"
 import {AUTH_TOKEN, BLOG, CREATE_NEW_POST, DRAFTS, SIGN_IN, SIGN_UP} from "../../constant";
@@ -15,6 +15,7 @@ import DraftsPage from "../Drafts/Drafts";
 import CreatePost from "../CreatePost/CreatePost";
 import Backdrop from "@material-ui/core/Backdrop/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import SinglePostView from "../SinglePostView/SinglePostView";
 
 
 const ME_QUERY = gql`
@@ -91,6 +92,7 @@ export default function App({token : PropsToken}) {
 
                     <PrivateRoute path={CREATE_NEW_POST} component={CreatePost}/>
                     <PrivateRoute path={DRAFTS} component={DraftsPage}/>
+                    <Route path="/post/:id" component={SinglePostView}/>
                     <Route render={() =>
                         <Paper elevation={15} style={{margin : "20px 10px", padding : "20px 10px"}}>
                             <Typography color='textSecondary' variant={'h1'} align='center'>
