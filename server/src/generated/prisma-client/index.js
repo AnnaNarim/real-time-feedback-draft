@@ -11,6 +11,10 @@ var models = [
   {
     name: "User",
     embedded: false
+  },
+  {
+    name: "Field",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
@@ -19,13 +23,3 @@ exports.Prisma = prisma_lib_1.makePrismaClientClass({
   endpoint: `${process.env["PRISMA_ENDPOINT"]}`
 });
 exports.prisma = new exports.Prisma();
-var models = [
-  {
-    name: "Post",
-    embedded: false
-  },
-  {
-    name: "User",
-    embedded: false
-  }
-];

@@ -8,7 +8,7 @@ type Query {
 type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
-  createDraft(title: String!, content: String!, answerType: String!): Post!
+  createDraft(title: String!, content: String!, answerType: String!,fields:[inputField!]!): Post!
   updateDraft(id: ID!, title: String!, content: String!): Post!
   publish(id: ID!,published:Boolean!): Post!
   deletePost(id: ID!): Post!
@@ -37,4 +37,16 @@ type Post {
   content: String!
   answerType : String!
   author: User!
+  fields:[Field!]!
+}
+
+input inputField{
+  label:String!,
+  type:String!
+}
+
+type Field {
+  id:ID!
+  label:String!,
+  type:String!,
 }
