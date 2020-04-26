@@ -31,4 +31,11 @@ type Class {
   name: String!
   post: Post!
   published: Boolean! @default(value: true)
+  answers: [Answer!]
+}
+
+type Answer {
+  id: ID! @id
+  value: String!
+  class: Class!
 }

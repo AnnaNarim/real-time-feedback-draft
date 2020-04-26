@@ -5,6 +5,7 @@ type Query {
   me: User
   classes: [Class!]
   fields: [Field!]!
+  answers: [Answer!]
 }
 
 type Mutation {
@@ -19,6 +20,8 @@ type Mutation {
   createClass(name: String!, postId: ID!): Class!
   publishClass(id: ID!, published: Boolean!): Class!
   deleteClass(id: ID!): Class!
+
+  createAnswer(value: String!, classId: ID!): Answer!
 }
 
 type Subscription {
@@ -64,4 +67,11 @@ type Class {
   name: String!
   post: Post!
   published: Boolean!
+  answers: [Answer!]
+}
+
+type Answer {
+  id: ID!
+  value: String!
+  class: Class!
 }

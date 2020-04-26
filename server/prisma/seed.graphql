@@ -27,6 +27,13 @@ mutation {
             {
               name: "CS123"
               published: true
+              answers: {
+                create: [
+                  {
+                    value: "Es poncho em!"
+                  }
+                ]
+              }
             }
           ]
         }
