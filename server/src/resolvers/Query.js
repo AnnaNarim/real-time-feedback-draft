@@ -21,6 +21,20 @@ const Query = {
     const id = getUserId(context)
     return context.prisma.user({ id })
   },
+  classes(parent, { id }, context) {
+    return context.prisma.classes({ where: {
+      post: {
+        id,
+      },
+    }})
+  },
+  fields(parent, { id }, context) {
+    return context.prisma.fields({ where: {
+      post: {
+        id,
+      },
+    }})
+  }
 }
 
 module.exports = { Query }

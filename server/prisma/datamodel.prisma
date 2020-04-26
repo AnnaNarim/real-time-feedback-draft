@@ -8,6 +8,7 @@ type Post {
   answerType: String!
   author: User!
   fields :[Field!]!
+  classes: [Class!]
 }
 
 type User {
@@ -19,8 +20,15 @@ type User {
 }
 
 type Field {
-    id:ID! @id
-    label:String!,
-    type:String!,
-    post : Post!
+  id: ID! @id
+  label: String!,
+  type: String!,
+  post: Post!
+}
+
+type Class {
+  id: ID! @id
+  name: String!
+  post: Post!
+  published: Boolean! @default(value: true)
 }

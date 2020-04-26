@@ -1,32 +1,40 @@
 mutation {
-    user1: createUser(data: {
-        email: "alice@prisma.io"
-        name: "Alice"
-        password: "$2b$10$dqyYw5XovLjpmkYNiRDEWuwKaRAvLaG45fnXE5b3KTccKZcRPka2m" # "secret42"
-        posts: {
-            create: {
-                title: "Join us for GraphQL Conf 2019 in Berlin"
-                content: "https://www.graphqlconf.org/"
-                answerType: "poll"
-                published: true
-                fields:{
-                    create:[
-                        {
-                            label:"My First Field"
-                            type:"poll"
-                        }
+  user1: createUser(data: {
+    email: "alice@prisma.io"
+    name: "Alice"
+    password: "$2b$10$dqyYw5XovLjpmkYNiRDEWuwKaRAvLaG45fnXE5b3KTccKZcRPka2m" # "secret42"
+    posts: {
+      create: {
+        title: "Join us for GraphQL Conf 2019 in Berlin"
+        content: "https://www.graphqlconf.org/"
+        answerType: "poll"
+        published: true
+        fields: {
+          create: [
+              {
+                label:"My First Field"
+                type:"poll"
+              }
 
-                        {
-                            label:"My Second Field"
-                            type:"poll"
-                        }
-                    ]
-                }
-            }
+              {
+                label:"My Second Field"
+                type:"poll"
+              }
+          ]
         }
-    }) {
-        id
+        classes: {
+          create: [
+            {
+              name: "CS123"
+              published: true
+            }
+          ]
+        }
+      }
     }
+  }) {
+    id
+  }
 
 #    user2: createUser(data: {
 #        email: "bob@prisma.io"
