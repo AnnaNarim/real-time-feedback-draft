@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react'
+import React, {Fragment, useLayoutEffect, useState} from 'react'
 import {makeStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
@@ -6,6 +6,20 @@ import Button from "@material-ui/core/Button";
 import QRCode from 'qrcode.react';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import {gql} from "apollo-boost";
+import {useMutation} from "@apollo/react-hooks";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop/Backdrop";
+import Typography from "@material-ui/core/Typography";
+import {DOMAIN} from "../../constant";
+
+const CREATE_CLASS_MUTATION = gql`
+    mutation CreateClasstMutation($name: String!, $postId: ID! ) {
+        createClass(name: $name, postId: $postId) {
+            id
+        }
+    }
+`;
 
 function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
@@ -21,51 +35,80 @@ function useWindowSize() {
     return size;
 }
 
-const QrComponent = (props) => {
-    const [classId, setClassId] = useState('');
-    const [qrValue, setQrValue] = useState('');
+const QrComponent = ({postId}) => {
+    const classes = useStyles();
+    const [className, setClassName] = useState('');
+    const [keyValue, setKeyValue] = useState('');
+    const [createClass, {loading}] = useMutation(CREATE_CLASS_MUTATION);
+
+    const QRvalue = DOMAIN + keyValue;
+
     return (
-        <div style={{
-            display             : "grid",
-            gridTemplateColumns : "1fr 1fr",
-            gridGap             : '1em',
-            height              : "100%"
-        }}>
+        <Fragment>
+            <Backdrop className={classes.backdrop} open={loading}>
+                <CircularProgress color="inherit"/>
+            </Backdrop>
+            <div style={{
+                display             : "grid",
+                gridTemplateColumns : "1fr 1fr",
+                gridGap             : '1em',
+                height              : "100%"
+            }}>
 
-            <div style={{display : "grid", gridTemplateRows : "1fr 1fr", gridGap : '1em'}}>
-                <TextField
-                    label="Class ID"
-                    value={classId}
-                    onChange={(e) => setClassId(e.target.value)}
-                />
-                <Button
-                    style={{margin : "15px 0"}}
-                    color='primary'
-                    variant="contained"
-                    onClick={() => setQrValue(classId)}>
-                    Generate QR
-                </Button>
+                <div style={{display : "grid", gridTemplateRows : "1fr 1fr", gridGap : '1em'}}>
+                    <TextField
+                        label="Class Name"
+                        value={className}
+                        onChange={(e) => setClassName(e.target.value)}
+                    />
+                    <Button
+                        disabled={!className}
+                        style={{margin : "15px 0"}}
+                        color='primary'
+                        variant="contained"
+                        onClick={() => createClass({
+                            variables : {
+                                name : className,
+                                postId
+                            }
+                        }).then(({data}) => setKeyValue(data.createClass.id))}>
+                        Generate QR and Key
+                    </Button>
 
-                <FullScreenDialog renderQr={(size) => <QRCode value={qrValue} size={size} level={'H'}/>}/>
+                    <FullScreenDialog
+                        keyValue={keyValue}
+                        renderQr={(size) => <QRCode value={QRvalue} size={size} level={'H'}/>}/>
+                </div>
+
+                <div style={{
+                    display          : "grid",
+                    gridTemplateRows : "1fr auto",
+                    justifyItems     : "center",
+                    alignItems       : "center"
+                }}>
+                    <QRCode value={QRvalue} level={'H'}/>
+                    <Typography variant='h5'>{keyValue}</Typography>
+                </div>
+
             </div>
 
-            <div style={{justifySelf : "center", alignSelf : "center"}}>
-                <QRCode value={qrValue} level={'H'}/>
-            </div>
-
-
-        </div>
+        </Fragment>
     )
+
 };
 
 export default withRouter(QrComponent);
 
 
 const useStyles = makeStyles((theme) => ({
-    appBar : {
+    backdrop : {
+        zIndex : theme.zIndex.drawer + 1,
+        margin : "0 !important"
+    },
+    appBar   : {
         position : 'relative',
     },
-    title  : {
+    title    : {
         marginLeft : theme.spacing(2),
         flex       : 1,
     },
@@ -75,7 +118,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function FullScreenDialog({renderQr}) {
+function FullScreenDialog({renderQr, keyValue}) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [width, height] = useWindowSize();
@@ -105,6 +148,7 @@ function FullScreenDialog({renderQr}) {
                     margin       : 10
                 }}>
                     {renderQr(size / 1.3)}
+                    <Typography variant='h1'>{keyValue}</Typography>
                 </div>
             </Dialog>
         </div>

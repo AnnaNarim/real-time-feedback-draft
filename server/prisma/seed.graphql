@@ -7,18 +7,19 @@ mutation {
       create: {
         title: "Join us for GraphQL Conf 2019 in Berlin"
         content: "https://www.graphqlconf.org/"
+        anonymous:true
         answerType: "poll"
         published: true
         fields: {
           create: [
               {
                 label:"My First Field"
-                type:"poll"
+                type:"text"
               }
 
               {
                 label:"My Second Field"
-                type:"poll"
+                type:"text"
               }
           ]
         }

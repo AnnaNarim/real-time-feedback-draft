@@ -719,6 +719,7 @@ type Post {
   createdAt: DateTime!
   updatedAt: DateTime!
   published: Boolean!
+  anonymous: Boolean!
   title: String!
   content: String!
   answerType: String!
@@ -736,6 +737,7 @@ type PostConnection {
 input PostCreateInput {
   id: ID
   published: Boolean
+  anonymous: Boolean
   title: String!
   content: String!
   answerType: String!
@@ -762,6 +764,7 @@ input PostCreateOneWithoutFieldsInput {
 input PostCreateWithoutAuthorInput {
   id: ID
   published: Boolean
+  anonymous: Boolean
   title: String!
   content: String!
   answerType: String!
@@ -772,6 +775,7 @@ input PostCreateWithoutAuthorInput {
 input PostCreateWithoutClassesInput {
   id: ID
   published: Boolean
+  anonymous: Boolean
   title: String!
   content: String!
   answerType: String!
@@ -782,6 +786,7 @@ input PostCreateWithoutClassesInput {
 input PostCreateWithoutFieldsInput {
   id: ID
   published: Boolean
+  anonymous: Boolean
   title: String!
   content: String!
   answerType: String!
@@ -803,6 +808,8 @@ enum PostOrderByInput {
   updatedAt_DESC
   published_ASC
   published_DESC
+  anonymous_ASC
+  anonymous_DESC
   title_ASC
   title_DESC
   content_ASC
@@ -816,6 +823,7 @@ type PostPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   published: Boolean!
+  anonymous: Boolean!
   title: String!
   content: String!
   answerType: String!
@@ -854,6 +862,8 @@ input PostScalarWhereInput {
   updatedAt_gte: DateTime
   published: Boolean
   published_not: Boolean
+  anonymous: Boolean
+  anonymous_not: Boolean
   title: String
   title_not: String
   title_in: [String!]
@@ -921,6 +931,7 @@ input PostSubscriptionWhereInput {
 
 input PostUpdateInput {
   published: Boolean
+  anonymous: Boolean
   title: String
   content: String
   answerType: String
@@ -931,6 +942,7 @@ input PostUpdateInput {
 
 input PostUpdateManyDataInput {
   published: Boolean
+  anonymous: Boolean
   title: String
   content: String
   answerType: String
@@ -938,6 +950,7 @@ input PostUpdateManyDataInput {
 
 input PostUpdateManyMutationInput {
   published: Boolean
+  anonymous: Boolean
   title: String
   content: String
   answerType: String
@@ -976,6 +989,7 @@ input PostUpdateOneRequiredWithoutFieldsInput {
 
 input PostUpdateWithoutAuthorDataInput {
   published: Boolean
+  anonymous: Boolean
   title: String
   content: String
   answerType: String
@@ -985,6 +999,7 @@ input PostUpdateWithoutAuthorDataInput {
 
 input PostUpdateWithoutClassesDataInput {
   published: Boolean
+  anonymous: Boolean
   title: String
   content: String
   answerType: String
@@ -994,6 +1009,7 @@ input PostUpdateWithoutClassesDataInput {
 
 input PostUpdateWithoutFieldsDataInput {
   published: Boolean
+  anonymous: Boolean
   title: String
   content: String
   answerType: String
@@ -1055,6 +1071,8 @@ input PostWhereInput {
   updatedAt_gte: DateTime
   published: Boolean
   published_not: Boolean
+  anonymous: Boolean
+  anonymous_not: Boolean
   title: String
   title_not: String
   title_in: [String!]

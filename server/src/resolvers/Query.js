@@ -14,6 +14,9 @@ const Query = {
     }
     return context.prisma.posts({ where })
   },
+  class(parent, { id }, context) {
+    return context.prisma.class({ id })
+  },
   post(parent, { id }, context) {
     return context.prisma.post({ id })
   },

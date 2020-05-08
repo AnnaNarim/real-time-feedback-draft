@@ -5,6 +5,7 @@ const { singleClass } = require('./Mutation/class')
 const { Subscription } = require('./Subscription')
 const { User } = require('./User')
 const { Post } = require('./Post')
+const { Class } = require('./Class')
 
 module.exports = {
   Query,
@@ -16,4 +17,5 @@ module.exports = {
   Subscription,
   User,
   Post,
+  Class
 }

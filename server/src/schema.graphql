@@ -2,6 +2,7 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
+  class(id: ID!): Class
   me: User
   classes: [Class!]
   fields: [Field!]!
@@ -12,7 +13,7 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
 
-  createDraft(title: String!, content: String!, answerType: String!, fields:[inputField!]!): Post!
+  createDraft(title: String!, content: String!,anonymous:Boolean! answerType: String!, fields:[inputField!]!): Post!
   updateDraft(id: ID!, title: String!, content: String!): Post!
   publish(id: ID!,published:Boolean!): Post!
   deletePost(id: ID!): Post!
@@ -43,6 +44,7 @@ type User {
 type Post {
   id: ID!
   published: Boolean!
+  anonymous: Boolean!
   title: String!
   content: String!
   answerType : String!

@@ -13,6 +13,9 @@ import Grid from "@material-ui/core/Grid";
 import QrComponent from "./QrComponent";
 import ChartsComponent from "./ChartsComponent";
 import {DRAFTS} from "../../constant";
+import TextField from "@material-ui/core/TextField/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import PublishClass from "./ClassPublish";
 
 const POST_QUERY = gql`
     query PostQuery($id: ID!) {
@@ -24,27 +27,40 @@ const POST_QUERY = gql`
             author {
                 name
             }
+            classes{
+                id
+                name
+                published
+            }
         }
     }
 `;
 
 
 const useStyles = makeStyles((theme) => ({
-    backdrop : {
+    backdrop      : {
         zIndex : theme.zIndex.drawer + 1
     },
-    root     : {
+    root          : {
         height  : '100%',
         padding : theme.spacing(2),
     },
-    paper    : {
+    paper         : {
         padding : theme.spacing(2),
         height  : "100%",
         color   : theme.palette.text.secondary,
     },
-    item     : {
+    item          : {
         padding : 10
+    },
+    selectionRoot : {
+        '& .MuiTextField-root': {
+            display             : "grid",
+            gridTemplateColumns : "1fr auto",
+            gridGap             : "1em"
+        },
     }
+
 }));
 
 
@@ -71,8 +87,7 @@ const SinglePostView = (props) => {
         return <Redirect to={'/'}/>;
 
 
-    const {title, content, published} = post;
-
+    const {title, content, published, classes : postClasses = []} = post;
 
     return (
         <Fragment>
@@ -103,11 +118,40 @@ const SinglePostView = (props) => {
                             })}/>
                             <UpdatePost title={title} id={id} content={content} refresh={() => refresh()}/>
                         </div>
+
+
+                        {!!postClasses ? <TextField
+                                className={classes.selection}
+                                select
+                                fullWidth
+                                label="Select class"
+                                // value={answerType}
+                                name='answerType'
+                                classes={{
+                                    root : classes.selectionRoot
+                                }}
+
+                                // onChange={({target}) => setInfo({...info, [target.name] : target.value})}
+                                variant="outlined"
+                                helperText="Please select class to see the answers statistic"
+                            >
+                                {postClasses.map(({id, name, published}) => (
+                                    <MenuItem key={id} value={id} style={{
+                                        display             : "grid",
+                                        gridTemplateColumns : "1fr auto",
+                                        gridGap             : "1em"
+                                    }}>
+                                        {name}
+                                        <PublishClass published={published} id={id} refresh={() => refresh()}/>
+                                    </MenuItem>))}
+                            </TextField>
+
+                            : null}
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.item}>
                     <Paper elevation={6} className={classes.paper}>
-                        <QrComponent/>
+                        <QrComponent postId={id}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} className={classes.item}>

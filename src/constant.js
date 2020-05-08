@@ -1,5 +1,5 @@
 export const USER_ID = 'user-id'
-
+export const DOMAIN ="https://placholder/";
 export const LANDING = '/';
 export const AUTH_TOKEN = 'AUTH_TOKEN';
 export const SIGN_UP = '/signup';

@@ -1,21 +1,20 @@
 const { getUserId } = require('../../utils')
 
 const post = {
-  async createDraft(parent, {title, content, answerType, fields}, context) {
+  async createDraft(parent, {title, content,anonymous, answerType, fields}, context) {
 
     const userId = getUserId(context);
-    const fieldIds = fields.map(item => {
-      return {
-        id : item.id
-      }
-    });
+
+
     return context.prisma.createPost({
       title,
       content,
+      anonymous,
       answerType,
-      fields : {connect : fieldIds},
-      author : { connect: { id: userId } },
-    })
+      fields : {create : fields},
+      author : {connect : {id : userId}},
+    });
+
   },
 
   async publish(parent, { id,published }, context) {

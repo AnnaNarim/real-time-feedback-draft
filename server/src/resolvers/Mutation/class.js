@@ -9,7 +9,8 @@ const singleClass = {
   async publishClass(parent, { id, published }, context) {
     const classExist = await context.prisma.$exists.class({
       id
-    })
+    });
+
     if (!classExist) {
       throw new Error(`Class not found to publish.`)
     }
@@ -26,7 +27,7 @@ const singleClass = {
     const classExists = await context.prisma.$exists.class({
       id
     })
-    if (!postExists) {
+    if (!classExists) {
       throw new Error(`Class not found to delete.`)
     }
 

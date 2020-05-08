@@ -7,15 +7,14 @@ import {makeStyles, withStyles} from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Switch from "@material-ui/core/Switch/Switch";
 
-const PUBLISH_MUTATION = gql`
-    mutation publish($id: ID!, $published :Boolean!) {
-        publish(id: $id, published:$published) {
+const CLASS_PUBLISH_MUTATION = gql`
+    mutation publishClass($id: ID!, $published :Boolean!) {
+        publishClass(id: $id, published:$published) {
             id
             published
         }
     }
 `;
-
 
 const useStyles = makeStyles((theme) => ({
     backdrop : {
@@ -24,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PublishPost = ({isPublished, id, refresh}) => {
+const PublishClass = ({published, id, refresh}) => {
     const classes = useStyles();
-    const [publish, {loading}] = useMutation(PUBLISH_MUTATION);
+    const [publishClass, {loading}] = useMutation(CLASS_PUBLISH_MUTATION);
 
     return <Fragment>
         <Backdrop className={classes.backdrop} open={loading}>
@@ -36,17 +35,19 @@ const PublishPost = ({isPublished, id, refresh}) => {
             style={{marginRight : "auto"}}
             control={
                 <GreenSwitch
-                    checked={isPublished}
+                    size="small"
+                    checked={published}
                     onChange={() => {
-                        publish({variables : {id, published : !isPublished}}).then(() => {
-                            refresh()
-                        })
+                        publishClass({variables : {id, published : !published}}).then(() => refresh())
                     }}
-                    name="isDraft"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}
                     color="secondary"
                 />
             }
-            label="Publish"
+            label="Accept answers"
         />
     </Fragment>
 };
@@ -65,4 +66,4 @@ const GreenSwitch = withStyles({
     checked    : {},
     track      : {},
 })(Switch);
-export default PublishPost;
+export default PublishClass;

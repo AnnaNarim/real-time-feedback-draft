@@ -16,6 +16,7 @@ import CreatePost from "../CreatePost/CreatePost";
 import Backdrop from "@material-ui/core/Backdrop/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import SinglePostView from "../SinglePostView/SinglePostView";
+import PostAnswersForm from "../PostAnswersForm/PostAnswersForm";
 
 
 const ME_QUERY = gql`
@@ -67,11 +68,11 @@ export default function App({token : PropsToken}) {
         }
     };
 
-    if(loading){
-        return <Backdrop open={true}>
-            <CircularProgress color="inherit"/>
-        </Backdrop>
-    }
+    // if(loading){
+    //     return <Backdrop open={true}>
+    //         <CircularProgress color="inherit"/>
+    //     </Backdrop>
+    // }
 
     return (
         <BrowserRouter>
@@ -92,7 +93,9 @@ export default function App({token : PropsToken}) {
 
                     <PrivateRoute path={CREATE_NEW_POST} component={CreatePost}/>
                     <PrivateRoute path={DRAFTS} component={DraftsPage}/>
-                    <Route path="/post/:id" component={SinglePostView}/>
+                    <PrivateRoute path="/post/:id" component={SinglePostView}/>
+                    <Route path="/answer/:id" component={PostAnswersForm}/>
+
                     <Route render={() =>
                         <Paper elevation={15} style={{margin : "20px 10px", padding : "20px 10px"}}>
                             <Typography color='textSecondary' variant={'h1'} align='center'>
