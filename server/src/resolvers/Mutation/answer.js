@@ -1,10 +1,11 @@
 const answer = {
-  async createClass(parent, { value, classId }, context) {
+  async createAnswer(parent, {value, answers, fieldId}, context) {
     return context.prisma.createAnswer({
       value,
-      class : { connect : { id: classId } }
+      author
+      // field : {connect : {id : fieldId}},
     })
   },
-}
+};
 
-module.exports = { answer }
+module.exports = {answer};

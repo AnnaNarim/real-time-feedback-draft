@@ -22,9 +22,10 @@ type User {
 
 type Field {
   id: ID! @id
-  label: String!,
-  type: String!,
+  label: String!
+  type: String!
   post: Post!
+  answers: [Answer!]
 }
 
 type Class {
@@ -32,11 +33,19 @@ type Class {
   name: String!
   post: Post!
   published: Boolean! @default(value: true)
+  attendees : [Attendee!]
+}
+
+type Attendee{
+  id: ID! @id
+  name: String! @default(value: "Anonymous")
   answers: [Answer!]
+  class:Class!
 }
 
 type Answer {
   id: ID! @id
   value: String!
-  class: Class!
+  author : Attendee!
+  field : Field
 }

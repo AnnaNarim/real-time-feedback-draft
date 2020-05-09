@@ -28,13 +28,6 @@ mutation {
             {
               name: "CS123"
               published: true
-              answers: {
-                create: [
-                  {
-                    value: "Es poncho em!"
-                  }
-                ]
-              }
             }
           ]
         }
@@ -44,7 +37,7 @@ mutation {
     id
   }
 
-#    user2: createUser(data: {
+#  user2: createUser(data: {
 #        email: "bob@prisma.io"
 #        name: "Bob"
 #        password: "$2b$10$o6KioO.taArzboM44Ig85O3ZFZYZpR3XD7mI8T29eP4znU/.xyJbW"  # "secret43"
@@ -60,7 +53,7 @@ mutation {
 #                answerType: "poll"
 #            }]
 #        }
-#    }) {
+#  }) {
 #        id
-#    }
+#  }
 }

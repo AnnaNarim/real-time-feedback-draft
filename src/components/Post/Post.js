@@ -40,7 +40,7 @@ export default function Post({isPublished, post,refresh}) {
                 </CardContent>
             </CardActionArea>
             <CardActions style={{justifyContent : "flex-end"}}>
-                <PublishPost id={id} isPublished={isPublished} refresh={refresh} />
+                {/*<PublishPost id={id} isPublished={isPublished} refresh={refresh} />*/}
                 <DeletePost title={title} id={id} refresh={refresh}/>
                 <UpdatePost  title={title} id={id}  content={content} refresh={refresh}/>
             </CardActions>

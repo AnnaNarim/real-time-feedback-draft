@@ -7,6 +7,8 @@ export const SIGN_IN = '/login';
 export const DRAFTS = '/drafts';
 export const BLOG = '/blog';
 export const CREATE_NEW_POST="/create-post";
+export const ANSWER = '/answer';
+export const SINGLE_ANSWER_POST = '/answer/:id'
 
 export const ACCOUNT = '/account';
 export const ADMIN = '/admin';

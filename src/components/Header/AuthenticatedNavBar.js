@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import {BLOG, CREATE_NEW_POST, DRAFTS} from "../../constant";
+import {ANSWER, BLOG, CREATE_NEW_POST, DRAFTS} from "../../constant";
 import {makeStyles} from '@material-ui/core/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -26,11 +26,14 @@ const useStyles = makeStyles((theme) => ({
 const AuthenticatedNavBar = () => {
     const [showLogoutDialog, setShowLogOutDialog] = useState(false);
     return <div>
+        <Button component={Link} to={ANSWER}>
+            Enter Room
+        </Button>
         <Button component={Link} to={CREATE_NEW_POST}>
-            Create New Post
+            Create Room
         </Button>
         <Button component={Link} to={DRAFTS}>
-            Drafts
+            Rooms
         </Button>
         <Button onClick={() => setShowLogOutDialog(true)}>
             Log Out

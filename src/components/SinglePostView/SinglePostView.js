@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useState} from 'react'
 import {gql} from 'apollo-boost'
 import {useQuery} from "@apollo/react-hooks";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -16,6 +16,7 @@ import {DRAFTS} from "../../constant";
 import TextField from "@material-ui/core/TextField/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import PublishClass from "./ClassPublish";
+import Typography from "@material-ui/core/Typography";
 
 const POST_QUERY = gql`
     query PostQuery($id: ID!) {
@@ -38,29 +39,33 @@ const POST_QUERY = gql`
 
 
 const useStyles = makeStyles((theme) => ({
-    backdrop      : {
+    backdrop           : {
         zIndex : theme.zIndex.drawer + 1
     },
-    root          : {
+    root               : {
         height  : '100%',
         padding : theme.spacing(2),
     },
-    paper         : {
+    paper              : {
         padding : theme.spacing(2),
         height  : "100%",
         color   : theme.palette.text.secondary,
     },
-    item          : {
+    item               : {
         padding : 10
     },
-    selectionRoot : {
-        '& .MuiTextField-root': {
+    selectionRoot      : {
+        '& .MuiSelect-select' : {
             display             : "grid",
             gridTemplateColumns : "1fr auto",
             gridGap             : "1em"
         },
+    },
+    sectionPlaceholder : {
+        display    : "grid",
+        alignItems : 'center',
+        height     : "100%"
     }
-
 }));
 
 
@@ -79,6 +84,7 @@ const SinglePostView = (props) => {
         options   : {fetchPolicy : 'network-only'}
     });
 
+    const [selectedClassId, setSelectedClassId] = useState('');
     const refresh = () => refetch();
 
     const {post = {}} = data;
@@ -110,8 +116,13 @@ const SinglePostView = (props) => {
                             {content}
                         </fieldset>
 
-                        <div style={{display : "flex", paddingTop : 10}}>
-                            <PublishPost id={id} isPublished={!!published} refresh={refresh}/>
+                        <div style={{
+                            display        : "flex",
+                            paddingTop     : 10,
+                            flexDirection  : "row",
+                            justifyContent : 'flex-end'
+                        }}>
+                            {/*<PublishPost id={id} isPublished={!!published} refresh={refresh}/>*/}
                             <DeletePost title={title} id={id} refresh={() => history.push({
                                 pathname : DRAFTS,
                                 state    : {shouldRefetch : true}
@@ -125,13 +136,10 @@ const SinglePostView = (props) => {
                                 select
                                 fullWidth
                                 label="Select class"
-                                // value={answerType}
+                                value={selectedClassId}
                                 name='answerType'
-                                classes={{
-                                    root : classes.selectionRoot
-                                }}
-
-                                // onChange={({target}) => setInfo({...info, [target.name] : target.value})}
+                                classes={{root : classes.selectionRoot}}
+                                onChange={({target}) => setSelectedClassId(target.value)}
                                 variant="outlined"
                                 helperText="Please select class to see the answers statistic"
                             >
@@ -151,12 +159,16 @@ const SinglePostView = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.item}>
                     <Paper elevation={6} className={classes.paper}>
-                        <QrComponent postId={id}/>
+                        <QrComponent postId={id} selectedClassId={selectedClassId} refresh={() => refresh()}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} className={classes.item}>
                     <Paper elevation={6} className={classes.paper}>
-                        <ChartsComponent/>
+                        {selectedClassId ? <ChartsComponent/> :
+                            <div className={classes.sectionPlaceholder}>
+                                <Typography variant='h2' align='center'>Please select class</Typography>
+                            </div>}
+
                     </Paper>
                 </Grid>
             </Grid>
