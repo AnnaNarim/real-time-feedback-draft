@@ -3,36 +3,36 @@ mutation {
     email: "alice@prisma.io"
     name: "Alice"
     password: "$2b$10$dqyYw5XovLjpmkYNiRDEWuwKaRAvLaG45fnXE5b3KTccKZcRPka2m" # "secret42"
-    posts: {
-      create: {
-        title: "Join us for GraphQL Conf 2019 in Berlin"
-        content: "https://www.graphqlconf.org/"
-        anonymous:true
-        answerType: "poll"
-        published: true
-        fields: {
-          create: [
-              {
-                label:"My First Field"
-                type:"text"
-              }
-
-              {
-                label:"My Second Field"
-                type:"text"
-              }
-          ]
-        }
-        classes: {
-          create: [
-            {
-              name: "CS123"
-              published: true
-            }
-          ]
-        }
-      }
-    }
+#    posts: {
+#      create: {
+#        title: "Join us for GraphQL Conf 2019 in Berlin"
+#        content: "https://www.graphqlconf.org/"
+#        anonymous:true
+#        answerType: "poll"
+#        published: true
+#        fields: {
+#          create: [
+#              {
+#                label:"My First Field"
+#                type:"text"
+#              }
+#
+#              {
+#                label:"My Second Field"
+#                type:"text"
+#              }
+#          ]
+#        }
+#        classes: {
+#          create: [
+#            {
+#              name: "CS123"
+#              published: true
+#            }
+#          ]
+#        }
+#      }
+#    }
   }) {
     id
   }

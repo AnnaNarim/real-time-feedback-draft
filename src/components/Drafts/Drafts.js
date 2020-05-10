@@ -51,6 +51,8 @@ const DraftsPage = (props) => {
         setNeedRefetch(false);
     }
 
+
+
     return (
         <Fragment>
             <Backdrop className={classes.backdrop} open={loading}>
@@ -58,7 +60,7 @@ const DraftsPage = (props) => {
             </Backdrop>
             <Container>
                 <h1>Drafts</h1>
-                <GridList cellHeight={"auto"} cols={3} spacing={10}>
+                <GridList cellHeight={"auto"} cols={2} spacing={10}>
                     {drafts.map((draft) => (
                         <GridListTile key={draft.id}>
                             <Post

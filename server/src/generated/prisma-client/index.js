@@ -5,19 +5,7 @@ var typeDefs = require("./prisma-schema").typeDefs;
 
 var models = [
   {
-    name: "Post",
-    embedded: false
-  },
-  {
-    name: "User",
-    embedded: false
-  },
-  {
-    name: "Field",
-    embedded: false
-  },
-  {
-    name: "Class",
+    name: "Answer",
     embedded: false
   },
   {
@@ -25,7 +13,19 @@ var models = [
     embedded: false
   },
   {
-    name: "Answer",
+    name: "Class",
+    embedded: false
+  },
+  {
+    name: "Field",
+    embedded: false
+  },
+  {
+    name: "Post",
+    embedded: false
+  },
+  {
+    name: "User",
     embedded: false
   }
 ];
@@ -35,3 +35,29 @@ exports.Prisma = prisma_lib_1.makePrismaClientClass({
   endpoint: `${process.env["PRISMA_ENDPOINT"]}`
 });
 exports.prisma = new exports.Prisma();
+var models = [
+  {
+    name: "Answer",
+    embedded: false
+  },
+  {
+    name: "Attendee",
+    embedded: false
+  },
+  {
+    name: "Class",
+    embedded: false
+  },
+  {
+    name: "Field",
+    embedded: false
+  },
+  {
+    name: "Post",
+    embedded: false
+  },
+  {
+    name: "User",
+    embedded: false
+  }
+];

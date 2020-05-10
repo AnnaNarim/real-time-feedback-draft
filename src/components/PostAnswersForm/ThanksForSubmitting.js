@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment} from 'react';
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -15,9 +15,9 @@ const ThanksForSubmitting = () => {
         >
             <Grid item>
                 <Paper elevation={5} style={{padding : 20}}>
-                    <Typography style={{margin : 20}} variant='h3' align='center'>Thank you for your answers</Typography>
+                    <Typography style={{margin : 20}} variant='h3' align='center'>Thank you for your response</Typography>
                     <Divider/>
-                    <Typography style={{margin : 20}} variant='h5' align='center'>Your answers submitted succesfully</Typography>
+                    <Typography style={{margin : 20}} variant='h5' align='center'>Your response submitted successfully</Typography>
                 </Paper>
             </Grid>
         </Grid>

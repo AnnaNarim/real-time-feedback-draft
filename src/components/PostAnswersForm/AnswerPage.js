@@ -38,7 +38,7 @@ const AnswerPage = () => {
     useEffect(() => setClassInfo({isError : false, isValid : false}), [classId]);
 
     if(classId && classInfo.isValid) {
-        return <Redirect to={'/answer/' + classId}/>;
+        return <Redirect to={'/room/' + classId}/>;
     }
 
     return <Fragment>

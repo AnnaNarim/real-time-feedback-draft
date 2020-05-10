@@ -6,7 +6,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect, withRouter} from "react-router-dom";
 import DeletePost from "../Post/PostDelete";
-import PublishPost from "../Post/PostPublish";
 import UpdatePost from "../Post/PostEdit";
 import {Paper} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -43,8 +42,20 @@ const useStyles = makeStyles((theme) => ({
         zIndex : theme.zIndex.drawer + 1
     },
     root               : {
-        height  : '100%',
-        padding : theme.spacing(2),
+        height           : '100%',
+        display          : "grid",
+        gridTemplateRows : "auto 1fr",
+        gridGap          : "2em",
+        padding          : "2em"
+    },
+    topSectionsWrapper : {
+        display                        : "grid",
+        gridTemplateColumns            : "1fr 1fr",
+        gridGap                        : "2em",
+        [theme.breakpoints.down('sm')] : {
+            gridTemplateColumns : 'auto',
+            gridTemplateRows    : "auto auto",
+        },
     },
     paper              : {
         padding : theme.spacing(2),
@@ -100,11 +111,11 @@ const SinglePostView = (props) => {
             <Backdrop className={classes.backdrop} open={loading}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
-            <Grid className={classes.root}
-                container
-                alignItems="stretch"
-            >
-                <Grid item xs={12} sm={6} className={classes.item}>
+
+            <div className={classes.root}>
+                <div className={classes.topSectionsWrapper}>
+
+
                     <Paper className={classes.paper} elevation={6}>
                         <fieldset>
                             <legend>Title</legend>
@@ -156,22 +167,22 @@ const SinglePostView = (props) => {
 
                             : null}
                     </Paper>
-                </Grid>
-                <Grid item xs={12} sm={6} className={classes.item}>
+
                     <Paper elevation={6} className={classes.paper}>
                         <QrComponent postId={id} selectedClassId={selectedClassId} refresh={() => refresh()}/>
                     </Paper>
-                </Grid>
-                <Grid item xs={12} className={classes.item}>
+
+
+                </div>
+                <div>
                     <Paper elevation={6} className={classes.paper}>
-                        {selectedClassId ? <ChartsComponent/> :
+                        {selectedClassId ? <ChartsComponent key={selectedClassId} classId={selectedClassId}/> :
                             <div className={classes.sectionPlaceholder}>
                                 <Typography variant='h2' align='center'>Please select class</Typography>
                             </div>}
-
                     </Paper>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
         </Fragment>
     )
 };
