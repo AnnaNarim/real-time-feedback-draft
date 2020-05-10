@@ -41,6 +41,7 @@ type Attendee{
   name: String! @default(value: "Anonymous")
   answers: [Answer!]
   class:Class!
+  createdAt: DateTime! @createdAt
 }
 
 type Answer {

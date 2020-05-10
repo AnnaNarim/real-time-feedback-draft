@@ -7,6 +7,7 @@ type Query {
   classes: [Class!]
   fields: [Field!]!
   answers: [Answer!]
+  relativeClassAnswers (classId :ID!):[Answer!]
 }
 
 type Mutation {
@@ -73,6 +74,7 @@ type Field {
   type: String!
   post: Post!
   answers: [Answer!]
+  relativeClassAnswers (classId :ID!):[Answer!]
 }
 
 type Class {
@@ -88,6 +90,7 @@ type Attendee{
   name: String
   answers: [Answer!]
   class:Class!
+  createdAt : String!
 }
 
 type Answer {

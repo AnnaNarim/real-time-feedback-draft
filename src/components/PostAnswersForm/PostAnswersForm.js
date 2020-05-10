@@ -1,23 +1,17 @@
-import React, {Fragment, useRef, useState} from 'react'
+import React, {useState} from 'react'
 import {gql} from 'apollo-boost'
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect, withRouter} from "react-router-dom";
-import DeletePost from "../Post/PostDelete";
-import PublishPost from "../Post/PostPublish";
-import UpdatePost from "../Post/PostEdit";
-import {Paper} from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import {ANSWER, DRAFTS} from "../../constant";
+import {ROOM} from "../../constant";
 import TextField from "@material-ui/core/TextField/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import {clone} from "../../lib/jsUtils";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import {useForm, Controller} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {ThanksForSubmitting, TimeIsOut} from "./ThanksForSubmitting";
 
 const FIELDS_QUERY = gql`
@@ -43,9 +37,9 @@ const FIELDS_QUERY = gql`
     }
 `;
 
-const CREATE_ATTENDEE = gql`
+const CREATE_ATTENDEE = gql`            
     mutation CreateAttendee($name:String!, $answers:[inputAnswer!]!, $classId:ID! ) {
-        createAttendee(name:$name,answers: $answers ,classId: $classId) {
+        createAttendee(name:$name, answers: $answers ,classId: $classId) {
             id
         }
     }
@@ -77,7 +71,7 @@ const SinglePostView = (props) => {
 
 
     if(!id)
-        return <Redirect to={ANSWER}/>;
+        return <Redirect to={ROOM}/>;
 
     const {class : postClass} = data;
 
@@ -88,7 +82,7 @@ const SinglePostView = (props) => {
     }
 
     if(postClass === null || postClass === undefined)
-        return <Redirect to={ANSWER}/>;
+        return <Redirect to={ROOM}/>;
 
 
     const {name, post = {}, published} = postClass,
@@ -100,7 +94,7 @@ const SinglePostView = (props) => {
             accum.push(answer);
             return accum;
         }, []);
-        createAttendee({variables : {name : name, answers, classId : id}})
+        createAttendee({variables : {name : name, createdAt : new Date(), answers, classId : id}})
             .then(() => setIsSubmitted(true));
     };
 
@@ -140,8 +134,9 @@ const SinglePostView = (props) => {
                 }
 
                 {
-                    fields.map(({id, label}) => (
-                        <Controller
+                    fields.map(({id, label, type}) => (
+                        type === "text" ?
+                            <Controller
                             key={id}
                             label={label}
                             margin='normal'
@@ -154,7 +149,38 @@ const SinglePostView = (props) => {
                             control={control}
                             fullWidth
                             defaultValue={''}
-                        />
+                            /> :
+
+                            type === 'percentage' ?
+                                <Controller
+                                    key={id}
+                                    margin='normal'
+                                    variant='outlined'
+                                    as={TextField}
+                                    select
+                                    label={label}
+                                    control={control}
+                                    rules={{required : true}}
+                                    error={!!errors[id]}
+                                    helperText={!!errors[id] ? "This field is required" : ''}
+                                    name={id}
+                                    fullWidth
+                                    defaultValue={''}
+                                >
+                                    <MenuItem value=""><em>None</em></MenuItem>
+                                    <MenuItem value={"0"}>Zero</MenuItem>
+                                    <MenuItem value={"10"}>Ten</MenuItem>
+                                    <MenuItem value={"20"}>Twenty</MenuItem>
+                                    <MenuItem value={"30"}>Thirty</MenuItem>
+                                    <MenuItem value={"40"}>Forty</MenuItem>
+                                    <MenuItem value={"50"}>Fifty</MenuItem>
+                                    <MenuItem value={"60"}>Sixty</MenuItem>
+                                    <MenuItem value={"70"}>Seventy</MenuItem>
+                                    <MenuItem value={"80"}>Eighty</MenuItem>
+                                    <MenuItem value={"90"}>Ninety</MenuItem>
+                                    <MenuItem value={"100"}>Hundred</MenuItem>
+                                </Controller>
+                                : "Cant find current type input"
                     ))}
 
                 <Button color="primary" variant="contained" type="submit" disabled={isSubmitted}>Submit Answers</Button>
