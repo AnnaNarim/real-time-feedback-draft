@@ -103,7 +103,7 @@ const EditPostConfirmDialog = ({title : PropsTitle, content : PropsContent, onCo
             maxWidth="xs"
             open={open}
         >
-            <DialogTitle id="confirmation-dialog-title">Post Edit</DialogTitle>
+            <DialogTitle id="confirmation-dialog-title">Edit</DialogTitle>
             <DialogContent dividers>
                 <TextField
                     autoFocus

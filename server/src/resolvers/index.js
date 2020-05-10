@@ -10,10 +10,6 @@ const { Class } = require('./Class')
 const { Answer } = require('./Answer');
 const {Field} = require('./Field');
 
-const {GraphQLScalarType} = require('graphql');
-const {Kind} = require('graphql/language');
-
-
 module.exports = {
   Query,
   Mutation: {
