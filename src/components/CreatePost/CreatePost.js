@@ -191,7 +191,7 @@ const CreatePost = (props) => {
                     return <div key={index} className={classes.fieldWrapper}>
                         <TextField
                             style={{flex : 1}}
-                            placeholder="Question Label"
+                            placeholder="Ask a question"
                             variant="outlined"
                             value={field.label}
                             name='content'
@@ -208,7 +208,7 @@ const CreatePost = (props) => {
                             <TextField
                                 style={{minWidth : 220}}
                                 select
-                                label="Select type answer type"
+                                label="Select an answer type"
                                 value={field.type}
                                 onChange={({target}) => {
                                     const updatedField = {...field, type : target.value};

@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   answer: (where?: AnswerWhereInput) => Promise<boolean>;
+  attendee: (where?: AttendeeWhereInput) => Promise<boolean>;
   class: (where?: ClassWhereInput) => Promise<boolean>;
   field: (where?: FieldWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
@@ -61,6 +62,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => AnswerConnectionPromise;
+  attendee: (where: AttendeeWhereUniqueInput) => AttendeeNullablePromise;
+  attendees: (args?: {
+    where?: AttendeeWhereInput;
+    orderBy?: AttendeeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Attendee>;
+  attendeesConnection: (args?: {
+    where?: AttendeeWhereInput;
+    orderBy?: AttendeeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => AttendeeConnectionPromise;
   class: (where: ClassWhereUniqueInput) => ClassNullablePromise;
   classes: (args?: {
     where?: ClassWhereInput;
@@ -159,6 +179,22 @@ export interface Prisma {
   }) => AnswerPromise;
   deleteAnswer: (where: AnswerWhereUniqueInput) => AnswerPromise;
   deleteManyAnswers: (where?: AnswerWhereInput) => BatchPayloadPromise;
+  createAttendee: (data: AttendeeCreateInput) => AttendeePromise;
+  updateAttendee: (args: {
+    data: AttendeeUpdateInput;
+    where: AttendeeWhereUniqueInput;
+  }) => AttendeePromise;
+  updateManyAttendees: (args: {
+    data: AttendeeUpdateManyMutationInput;
+    where?: AttendeeWhereInput;
+  }) => BatchPayloadPromise;
+  upsertAttendee: (args: {
+    where: AttendeeWhereUniqueInput;
+    create: AttendeeCreateInput;
+    update: AttendeeUpdateInput;
+  }) => AttendeePromise;
+  deleteAttendee: (where: AttendeeWhereUniqueInput) => AttendeePromise;
+  deleteManyAttendees: (where?: AttendeeWhereInput) => BatchPayloadPromise;
   createClass: (data: ClassCreateInput) => ClassPromise;
   updateClass: (args: {
     data: ClassUpdateInput;
@@ -235,6 +271,9 @@ export interface Subscription {
   answer: (
     where?: AnswerSubscriptionWhereInput
   ) => AnswerSubscriptionPayloadSubscription;
+  attendee: (
+    where?: AttendeeSubscriptionWhereInput
+  ) => AttendeeSubscriptionPayloadSubscription;
   class: (
     where?: ClassSubscriptionWhereInput
   ) => ClassSubscriptionPayloadSubscription;
@@ -256,6 +295,12 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type AnswerOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "value_ASC"
+  | "value_DESC";
 
 export type PostOrderByInput =
   | "id_ASC"
@@ -291,11 +336,11 @@ export type ClassOrderByInput =
   | "published_ASC"
   | "published_DESC";
 
-export type AnswerOrderByInput =
+export type AttendeeOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "value_ASC"
-  | "value_DESC";
+  | "name_ASC"
+  | "name_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -312,6 +357,120 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 export type AnswerWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface AnswerWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  author?: Maybe<AttendeeWhereInput>;
+  field?: Maybe<FieldWhereInput>;
+  AND?: Maybe<AnswerWhereInput[] | AnswerWhereInput>;
+  OR?: Maybe<AnswerWhereInput[] | AnswerWhereInput>;
+  NOT?: Maybe<AnswerWhereInput[] | AnswerWhereInput>;
+}
+
+export interface AttendeeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  answers_every?: Maybe<AnswerWhereInput>;
+  answers_some?: Maybe<AnswerWhereInput>;
+  answers_none?: Maybe<AnswerWhereInput>;
+  class?: Maybe<ClassWhereInput>;
+  AND?: Maybe<AttendeeWhereInput[] | AttendeeWhereInput>;
+  OR?: Maybe<AttendeeWhereInput[] | AttendeeWhereInput>;
+  NOT?: Maybe<AttendeeWhereInput[] | AttendeeWhereInput>;
+}
+
+export interface ClassWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  post?: Maybe<PostWhereInput>;
+  published?: Maybe<Boolean>;
+  published_not?: Maybe<Boolean>;
+  attendees_every?: Maybe<AttendeeWhereInput>;
+  attendees_some?: Maybe<AttendeeWhereInput>;
+  attendees_none?: Maybe<AttendeeWhereInput>;
+  AND?: Maybe<ClassWhereInput[] | ClassWhereInput>;
+  OR?: Maybe<ClassWhereInput[] | ClassWhereInput>;
+  NOT?: Maybe<ClassWhereInput[] | ClassWhereInput>;
+}
 
 export interface PostWhereInput {
   id?: Maybe<ID_Input>;
@@ -511,85 +670,17 @@ export interface FieldWhereInput {
   type_ends_with?: Maybe<String>;
   type_not_ends_with?: Maybe<String>;
   post?: Maybe<PostWhereInput>;
+  answers_every?: Maybe<AnswerWhereInput>;
+  answers_some?: Maybe<AnswerWhereInput>;
+  answers_none?: Maybe<AnswerWhereInput>;
   AND?: Maybe<FieldWhereInput[] | FieldWhereInput>;
   OR?: Maybe<FieldWhereInput[] | FieldWhereInput>;
   NOT?: Maybe<FieldWhereInput[] | FieldWhereInput>;
 }
 
-export interface ClassWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  post?: Maybe<PostWhereInput>;
-  published?: Maybe<Boolean>;
-  published_not?: Maybe<Boolean>;
-  answers_every?: Maybe<AnswerWhereInput>;
-  answers_some?: Maybe<AnswerWhereInput>;
-  answers_none?: Maybe<AnswerWhereInput>;
-  AND?: Maybe<ClassWhereInput[] | ClassWhereInput>;
-  OR?: Maybe<ClassWhereInput[] | ClassWhereInput>;
-  NOT?: Maybe<ClassWhereInput[] | ClassWhereInput>;
-}
-
-export interface AnswerWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  class?: Maybe<ClassWhereInput>;
-  AND?: Maybe<AnswerWhereInput[] | AnswerWhereInput>;
-  OR?: Maybe<AnswerWhereInput[] | AnswerWhereInput>;
-  NOT?: Maybe<AnswerWhereInput[] | AnswerWhereInput>;
-}
+export type AttendeeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export type ClassWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -611,15 +702,27 @@ export type UserWhereUniqueInput = AtLeastOne<{
 export interface AnswerCreateInput {
   id?: Maybe<ID_Input>;
   value: String;
-  class: ClassCreateOneWithoutAnswersInput;
+  author: AttendeeCreateOneWithoutAnswersInput;
+  field?: Maybe<FieldCreateOneWithoutAnswersInput>;
 }
 
-export interface ClassCreateOneWithoutAnswersInput {
-  create?: Maybe<ClassCreateWithoutAnswersInput>;
+export interface AttendeeCreateOneWithoutAnswersInput {
+  create?: Maybe<AttendeeCreateWithoutAnswersInput>;
+  connect?: Maybe<AttendeeWhereUniqueInput>;
+}
+
+export interface AttendeeCreateWithoutAnswersInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  class: ClassCreateOneWithoutAttendeesInput;
+}
+
+export interface ClassCreateOneWithoutAttendeesInput {
+  create?: Maybe<ClassCreateWithoutAttendeesInput>;
   connect?: Maybe<ClassWhereUniqueInput>;
 }
 
-export interface ClassCreateWithoutAnswersInput {
+export interface ClassCreateWithoutAttendeesInput {
   id?: Maybe<ID_Input>;
   name: String;
   post: PostCreateOneWithoutClassesInput;
@@ -663,21 +766,114 @@ export interface FieldCreateWithoutPostInput {
   id?: Maybe<ID_Input>;
   label: String;
   type: String;
+  answers?: Maybe<AnswerCreateManyWithoutFieldInput>;
+}
+
+export interface AnswerCreateManyWithoutFieldInput {
+  create?: Maybe<
+    AnswerCreateWithoutFieldInput[] | AnswerCreateWithoutFieldInput
+  >;
+  connect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+}
+
+export interface AnswerCreateWithoutFieldInput {
+  id?: Maybe<ID_Input>;
+  value: String;
+  author: AttendeeCreateOneWithoutAnswersInput;
+}
+
+export interface FieldCreateOneWithoutAnswersInput {
+  create?: Maybe<FieldCreateWithoutAnswersInput>;
+  connect?: Maybe<FieldWhereUniqueInput>;
+}
+
+export interface FieldCreateWithoutAnswersInput {
+  id?: Maybe<ID_Input>;
+  label: String;
+  type: String;
+  post: PostCreateOneWithoutFieldsInput;
+}
+
+export interface PostCreateOneWithoutFieldsInput {
+  create?: Maybe<PostCreateWithoutFieldsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface PostCreateWithoutFieldsInput {
+  id?: Maybe<ID_Input>;
+  published?: Maybe<Boolean>;
+  anonymous?: Maybe<Boolean>;
+  title: String;
+  content: String;
+  answerType: String;
+  author: UserCreateOneWithoutPostsInput;
+  classes?: Maybe<ClassCreateManyWithoutPostInput>;
+}
+
+export interface ClassCreateManyWithoutPostInput {
+  create?: Maybe<ClassCreateWithoutPostInput[] | ClassCreateWithoutPostInput>;
+  connect?: Maybe<ClassWhereUniqueInput[] | ClassWhereUniqueInput>;
+}
+
+export interface ClassCreateWithoutPostInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  published?: Maybe<Boolean>;
+  attendees?: Maybe<AttendeeCreateManyWithoutClassInput>;
+}
+
+export interface AttendeeCreateManyWithoutClassInput {
+  create?: Maybe<
+    AttendeeCreateWithoutClassInput[] | AttendeeCreateWithoutClassInput
+  >;
+  connect?: Maybe<AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput>;
+}
+
+export interface AttendeeCreateWithoutClassInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  answers?: Maybe<AnswerCreateManyWithoutAuthorInput>;
+}
+
+export interface AnswerCreateManyWithoutAuthorInput {
+  create?: Maybe<
+    AnswerCreateWithoutAuthorInput[] | AnswerCreateWithoutAuthorInput
+  >;
+  connect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+}
+
+export interface AnswerCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
+  value: String;
+  field?: Maybe<FieldCreateOneWithoutAnswersInput>;
 }
 
 export interface AnswerUpdateInput {
   value?: Maybe<String>;
-  class?: Maybe<ClassUpdateOneRequiredWithoutAnswersInput>;
+  author?: Maybe<AttendeeUpdateOneRequiredWithoutAnswersInput>;
+  field?: Maybe<FieldUpdateOneWithoutAnswersInput>;
 }
 
-export interface ClassUpdateOneRequiredWithoutAnswersInput {
-  create?: Maybe<ClassCreateWithoutAnswersInput>;
-  update?: Maybe<ClassUpdateWithoutAnswersDataInput>;
-  upsert?: Maybe<ClassUpsertWithoutAnswersInput>;
+export interface AttendeeUpdateOneRequiredWithoutAnswersInput {
+  create?: Maybe<AttendeeCreateWithoutAnswersInput>;
+  update?: Maybe<AttendeeUpdateWithoutAnswersDataInput>;
+  upsert?: Maybe<AttendeeUpsertWithoutAnswersInput>;
+  connect?: Maybe<AttendeeWhereUniqueInput>;
+}
+
+export interface AttendeeUpdateWithoutAnswersDataInput {
+  name?: Maybe<String>;
+  class?: Maybe<ClassUpdateOneRequiredWithoutAttendeesInput>;
+}
+
+export interface ClassUpdateOneRequiredWithoutAttendeesInput {
+  create?: Maybe<ClassCreateWithoutAttendeesInput>;
+  update?: Maybe<ClassUpdateWithoutAttendeesDataInput>;
+  upsert?: Maybe<ClassUpsertWithoutAttendeesInput>;
   connect?: Maybe<ClassWhereUniqueInput>;
 }
 
-export interface ClassUpdateWithoutAnswersDataInput {
+export interface ClassUpdateWithoutAttendeesDataInput {
   name?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutClassesInput>;
   published?: Maybe<Boolean>;
@@ -746,6 +942,89 @@ export interface FieldUpdateWithWhereUniqueWithoutPostInput {
 export interface FieldUpdateWithoutPostDataInput {
   label?: Maybe<String>;
   type?: Maybe<String>;
+  answers?: Maybe<AnswerUpdateManyWithoutFieldInput>;
+}
+
+export interface AnswerUpdateManyWithoutFieldInput {
+  create?: Maybe<
+    AnswerCreateWithoutFieldInput[] | AnswerCreateWithoutFieldInput
+  >;
+  delete?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  connect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  set?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  disconnect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  update?: Maybe<
+    | AnswerUpdateWithWhereUniqueWithoutFieldInput[]
+    | AnswerUpdateWithWhereUniqueWithoutFieldInput
+  >;
+  upsert?: Maybe<
+    | AnswerUpsertWithWhereUniqueWithoutFieldInput[]
+    | AnswerUpsertWithWhereUniqueWithoutFieldInput
+  >;
+  deleteMany?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
+  updateMany?: Maybe<
+    | AnswerUpdateManyWithWhereNestedInput[]
+    | AnswerUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface AnswerUpdateWithWhereUniqueWithoutFieldInput {
+  where: AnswerWhereUniqueInput;
+  data: AnswerUpdateWithoutFieldDataInput;
+}
+
+export interface AnswerUpdateWithoutFieldDataInput {
+  value?: Maybe<String>;
+  author?: Maybe<AttendeeUpdateOneRequiredWithoutAnswersInput>;
+}
+
+export interface AnswerUpsertWithWhereUniqueWithoutFieldInput {
+  where: AnswerWhereUniqueInput;
+  update: AnswerUpdateWithoutFieldDataInput;
+  create: AnswerCreateWithoutFieldInput;
+}
+
+export interface AnswerScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  value?: Maybe<String>;
+  value_not?: Maybe<String>;
+  value_in?: Maybe<String[] | String>;
+  value_not_in?: Maybe<String[] | String>;
+  value_lt?: Maybe<String>;
+  value_lte?: Maybe<String>;
+  value_gt?: Maybe<String>;
+  value_gte?: Maybe<String>;
+  value_contains?: Maybe<String>;
+  value_not_contains?: Maybe<String>;
+  value_starts_with?: Maybe<String>;
+  value_not_starts_with?: Maybe<String>;
+  value_ends_with?: Maybe<String>;
+  value_not_ends_with?: Maybe<String>;
+  AND?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
+  OR?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
+  NOT?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
+}
+
+export interface AnswerUpdateManyWithWhereNestedInput {
+  where: AnswerScalarWhereInput;
+  data: AnswerUpdateManyDataInput;
+}
+
+export interface AnswerUpdateManyDataInput {
+  value?: Maybe<String>;
 }
 
 export interface FieldUpsertWithWhereUniqueWithoutPostInput {
@@ -817,164 +1096,26 @@ export interface PostUpsertWithoutClassesInput {
   create: PostCreateWithoutClassesInput;
 }
 
-export interface ClassUpsertWithoutAnswersInput {
-  update: ClassUpdateWithoutAnswersDataInput;
-  create: ClassCreateWithoutAnswersInput;
+export interface ClassUpsertWithoutAttendeesInput {
+  update: ClassUpdateWithoutAttendeesDataInput;
+  create: ClassCreateWithoutAttendeesInput;
 }
 
-export interface AnswerUpdateManyMutationInput {
-  value?: Maybe<String>;
+export interface AttendeeUpsertWithoutAnswersInput {
+  update: AttendeeUpdateWithoutAnswersDataInput;
+  create: AttendeeCreateWithoutAnswersInput;
 }
 
-export interface ClassCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  post: PostCreateOneWithoutClassesInput;
-  published?: Maybe<Boolean>;
-  answers?: Maybe<AnswerCreateManyWithoutClassInput>;
+export interface FieldUpdateOneWithoutAnswersInput {
+  create?: Maybe<FieldCreateWithoutAnswersInput>;
+  update?: Maybe<FieldUpdateWithoutAnswersDataInput>;
+  upsert?: Maybe<FieldUpsertWithoutAnswersInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<FieldWhereUniqueInput>;
 }
 
-export interface AnswerCreateManyWithoutClassInput {
-  create?: Maybe<
-    AnswerCreateWithoutClassInput[] | AnswerCreateWithoutClassInput
-  >;
-  connect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
-}
-
-export interface AnswerCreateWithoutClassInput {
-  id?: Maybe<ID_Input>;
-  value: String;
-}
-
-export interface ClassUpdateInput {
-  name?: Maybe<String>;
-  post?: Maybe<PostUpdateOneRequiredWithoutClassesInput>;
-  published?: Maybe<Boolean>;
-  answers?: Maybe<AnswerUpdateManyWithoutClassInput>;
-}
-
-export interface AnswerUpdateManyWithoutClassInput {
-  create?: Maybe<
-    AnswerCreateWithoutClassInput[] | AnswerCreateWithoutClassInput
-  >;
-  delete?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
-  connect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
-  set?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
-  disconnect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
-  update?: Maybe<
-    | AnswerUpdateWithWhereUniqueWithoutClassInput[]
-    | AnswerUpdateWithWhereUniqueWithoutClassInput
-  >;
-  upsert?: Maybe<
-    | AnswerUpsertWithWhereUniqueWithoutClassInput[]
-    | AnswerUpsertWithWhereUniqueWithoutClassInput
-  >;
-  deleteMany?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
-  updateMany?: Maybe<
-    | AnswerUpdateManyWithWhereNestedInput[]
-    | AnswerUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface AnswerUpdateWithWhereUniqueWithoutClassInput {
-  where: AnswerWhereUniqueInput;
-  data: AnswerUpdateWithoutClassDataInput;
-}
-
-export interface AnswerUpdateWithoutClassDataInput {
-  value?: Maybe<String>;
-}
-
-export interface AnswerUpsertWithWhereUniqueWithoutClassInput {
-  where: AnswerWhereUniqueInput;
-  update: AnswerUpdateWithoutClassDataInput;
-  create: AnswerCreateWithoutClassInput;
-}
-
-export interface AnswerScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  value?: Maybe<String>;
-  value_not?: Maybe<String>;
-  value_in?: Maybe<String[] | String>;
-  value_not_in?: Maybe<String[] | String>;
-  value_lt?: Maybe<String>;
-  value_lte?: Maybe<String>;
-  value_gt?: Maybe<String>;
-  value_gte?: Maybe<String>;
-  value_contains?: Maybe<String>;
-  value_not_contains?: Maybe<String>;
-  value_starts_with?: Maybe<String>;
-  value_not_starts_with?: Maybe<String>;
-  value_ends_with?: Maybe<String>;
-  value_not_ends_with?: Maybe<String>;
-  AND?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
-  OR?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
-  NOT?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
-}
-
-export interface AnswerUpdateManyWithWhereNestedInput {
-  where: AnswerScalarWhereInput;
-  data: AnswerUpdateManyDataInput;
-}
-
-export interface AnswerUpdateManyDataInput {
-  value?: Maybe<String>;
-}
-
-export interface ClassUpdateManyMutationInput {
-  name?: Maybe<String>;
-  published?: Maybe<Boolean>;
-}
-
-export interface FieldCreateInput {
-  id?: Maybe<ID_Input>;
-  label: String;
-  type: String;
-  post: PostCreateOneWithoutFieldsInput;
-}
-
-export interface PostCreateOneWithoutFieldsInput {
-  create?: Maybe<PostCreateWithoutFieldsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export interface PostCreateWithoutFieldsInput {
-  id?: Maybe<ID_Input>;
-  published?: Maybe<Boolean>;
-  anonymous?: Maybe<Boolean>;
-  title: String;
-  content: String;
-  answerType: String;
-  author: UserCreateOneWithoutPostsInput;
-  classes?: Maybe<ClassCreateManyWithoutPostInput>;
-}
-
-export interface ClassCreateManyWithoutPostInput {
-  create?: Maybe<ClassCreateWithoutPostInput[] | ClassCreateWithoutPostInput>;
-  connect?: Maybe<ClassWhereUniqueInput[] | ClassWhereUniqueInput>;
-}
-
-export interface ClassCreateWithoutPostInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  published?: Maybe<Boolean>;
-  answers?: Maybe<AnswerCreateManyWithoutClassInput>;
-}
-
-export interface FieldUpdateInput {
+export interface FieldUpdateWithoutAnswersDataInput {
   label?: Maybe<String>;
   type?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutFieldsInput>;
@@ -1025,7 +1166,128 @@ export interface ClassUpdateWithWhereUniqueWithoutPostInput {
 export interface ClassUpdateWithoutPostDataInput {
   name?: Maybe<String>;
   published?: Maybe<Boolean>;
-  answers?: Maybe<AnswerUpdateManyWithoutClassInput>;
+  attendees?: Maybe<AttendeeUpdateManyWithoutClassInput>;
+}
+
+export interface AttendeeUpdateManyWithoutClassInput {
+  create?: Maybe<
+    AttendeeCreateWithoutClassInput[] | AttendeeCreateWithoutClassInput
+  >;
+  delete?: Maybe<AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput>;
+  connect?: Maybe<AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput>;
+  set?: Maybe<AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput>;
+  disconnect?: Maybe<AttendeeWhereUniqueInput[] | AttendeeWhereUniqueInput>;
+  update?: Maybe<
+    | AttendeeUpdateWithWhereUniqueWithoutClassInput[]
+    | AttendeeUpdateWithWhereUniqueWithoutClassInput
+  >;
+  upsert?: Maybe<
+    | AttendeeUpsertWithWhereUniqueWithoutClassInput[]
+    | AttendeeUpsertWithWhereUniqueWithoutClassInput
+  >;
+  deleteMany?: Maybe<AttendeeScalarWhereInput[] | AttendeeScalarWhereInput>;
+  updateMany?: Maybe<
+    | AttendeeUpdateManyWithWhereNestedInput[]
+    | AttendeeUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface AttendeeUpdateWithWhereUniqueWithoutClassInput {
+  where: AttendeeWhereUniqueInput;
+  data: AttendeeUpdateWithoutClassDataInput;
+}
+
+export interface AttendeeUpdateWithoutClassDataInput {
+  name?: Maybe<String>;
+  answers?: Maybe<AnswerUpdateManyWithoutAuthorInput>;
+}
+
+export interface AnswerUpdateManyWithoutAuthorInput {
+  create?: Maybe<
+    AnswerCreateWithoutAuthorInput[] | AnswerCreateWithoutAuthorInput
+  >;
+  delete?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  connect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  set?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  disconnect?: Maybe<AnswerWhereUniqueInput[] | AnswerWhereUniqueInput>;
+  update?: Maybe<
+    | AnswerUpdateWithWhereUniqueWithoutAuthorInput[]
+    | AnswerUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | AnswerUpsertWithWhereUniqueWithoutAuthorInput[]
+    | AnswerUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<AnswerScalarWhereInput[] | AnswerScalarWhereInput>;
+  updateMany?: Maybe<
+    | AnswerUpdateManyWithWhereNestedInput[]
+    | AnswerUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface AnswerUpdateWithWhereUniqueWithoutAuthorInput {
+  where: AnswerWhereUniqueInput;
+  data: AnswerUpdateWithoutAuthorDataInput;
+}
+
+export interface AnswerUpdateWithoutAuthorDataInput {
+  value?: Maybe<String>;
+  field?: Maybe<FieldUpdateOneWithoutAnswersInput>;
+}
+
+export interface AnswerUpsertWithWhereUniqueWithoutAuthorInput {
+  where: AnswerWhereUniqueInput;
+  update: AnswerUpdateWithoutAuthorDataInput;
+  create: AnswerCreateWithoutAuthorInput;
+}
+
+export interface AttendeeUpsertWithWhereUniqueWithoutClassInput {
+  where: AttendeeWhereUniqueInput;
+  update: AttendeeUpdateWithoutClassDataInput;
+  create: AttendeeCreateWithoutClassInput;
+}
+
+export interface AttendeeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<AttendeeScalarWhereInput[] | AttendeeScalarWhereInput>;
+  OR?: Maybe<AttendeeScalarWhereInput[] | AttendeeScalarWhereInput>;
+  NOT?: Maybe<AttendeeScalarWhereInput[] | AttendeeScalarWhereInput>;
+}
+
+export interface AttendeeUpdateManyWithWhereNestedInput {
+  where: AttendeeScalarWhereInput;
+  data: AttendeeUpdateManyDataInput;
+}
+
+export interface AttendeeUpdateManyDataInput {
+  name?: Maybe<String>;
 }
 
 export interface ClassUpsertWithWhereUniqueWithoutPostInput {
@@ -1083,6 +1345,67 @@ export interface ClassUpdateManyDataInput {
 export interface PostUpsertWithoutFieldsInput {
   update: PostUpdateWithoutFieldsDataInput;
   create: PostCreateWithoutFieldsInput;
+}
+
+export interface FieldUpsertWithoutAnswersInput {
+  update: FieldUpdateWithoutAnswersDataInput;
+  create: FieldCreateWithoutAnswersInput;
+}
+
+export interface AnswerUpdateManyMutationInput {
+  value?: Maybe<String>;
+}
+
+export interface AttendeeCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  answers?: Maybe<AnswerCreateManyWithoutAuthorInput>;
+  class: ClassCreateOneWithoutAttendeesInput;
+}
+
+export interface AttendeeUpdateInput {
+  name?: Maybe<String>;
+  answers?: Maybe<AnswerUpdateManyWithoutAuthorInput>;
+  class?: Maybe<ClassUpdateOneRequiredWithoutAttendeesInput>;
+}
+
+export interface AttendeeUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface ClassCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  post: PostCreateOneWithoutClassesInput;
+  published?: Maybe<Boolean>;
+  attendees?: Maybe<AttendeeCreateManyWithoutClassInput>;
+}
+
+export interface ClassUpdateInput {
+  name?: Maybe<String>;
+  post?: Maybe<PostUpdateOneRequiredWithoutClassesInput>;
+  published?: Maybe<Boolean>;
+  attendees?: Maybe<AttendeeUpdateManyWithoutClassInput>;
+}
+
+export interface ClassUpdateManyMutationInput {
+  name?: Maybe<String>;
+  published?: Maybe<Boolean>;
+}
+
+export interface FieldCreateInput {
+  id?: Maybe<ID_Input>;
+  label: String;
+  type: String;
+  post: PostCreateOneWithoutFieldsInput;
+  answers?: Maybe<AnswerCreateManyWithoutFieldInput>;
+}
+
+export interface FieldUpdateInput {
+  label?: Maybe<String>;
+  type?: Maybe<String>;
+  post?: Maybe<PostUpdateOneRequiredWithoutFieldsInput>;
+  answers?: Maybe<AnswerUpdateManyWithoutFieldInput>;
 }
 
 export interface FieldUpdateManyMutationInput {
@@ -1305,6 +1628,21 @@ export interface AnswerSubscriptionWhereInput {
   NOT?: Maybe<AnswerSubscriptionWhereInput[] | AnswerSubscriptionWhereInput>;
 }
 
+export interface AttendeeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<AttendeeWhereInput>;
+  AND?: Maybe<
+    AttendeeSubscriptionWhereInput[] | AttendeeSubscriptionWhereInput
+  >;
+  OR?: Maybe<AttendeeSubscriptionWhereInput[] | AttendeeSubscriptionWhereInput>;
+  NOT?: Maybe<
+    AttendeeSubscriptionWhereInput[] | AttendeeSubscriptionWhereInput
+  >;
+}
+
 export interface ClassSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -1361,7 +1699,8 @@ export interface Answer {
 export interface AnswerPromise extends Promise<Answer>, Fragmentable {
   id: () => Promise<ID_Output>;
   value: () => Promise<String>;
-  class: <T = ClassPromise>() => T;
+  author: <T = AttendeePromise>() => T;
+  field: <T = FieldPromise>() => T;
 }
 
 export interface AnswerSubscription
@@ -1369,7 +1708,8 @@ export interface AnswerSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   value: () => Promise<AsyncIterator<String>>;
-  class: <T = ClassSubscription>() => T;
+  author: <T = AttendeeSubscription>() => T;
+  field: <T = FieldSubscription>() => T;
 }
 
 export interface AnswerNullablePromise
@@ -1377,6 +1717,61 @@ export interface AnswerNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   value: () => Promise<String>;
+  author: <T = AttendeePromise>() => T;
+  field: <T = FieldPromise>() => T;
+}
+
+export interface Attendee {
+  id: ID_Output;
+  name: String;
+}
+
+export interface AttendeePromise extends Promise<Attendee>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  answers: <T = FragmentableArray<Answer>>(args?: {
+    where?: AnswerWhereInput;
+    orderBy?: AnswerOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  class: <T = ClassPromise>() => T;
+}
+
+export interface AttendeeSubscription
+  extends Promise<AsyncIterator<Attendee>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  answers: <T = Promise<AsyncIterator<AnswerSubscription>>>(args?: {
+    where?: AnswerWhereInput;
+    orderBy?: AnswerOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  class: <T = ClassSubscription>() => T;
+}
+
+export interface AttendeeNullablePromise
+  extends Promise<Attendee | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  answers: <T = FragmentableArray<Answer>>(args?: {
+    where?: AnswerWhereInput;
+    orderBy?: AnswerOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   class: <T = ClassPromise>() => T;
 }
 
@@ -1391,9 +1786,9 @@ export interface ClassPromise extends Promise<Class>, Fragmentable {
   name: () => Promise<String>;
   post: <T = PostPromise>() => T;
   published: () => Promise<Boolean>;
-  answers: <T = FragmentableArray<Answer>>(args?: {
-    where?: AnswerWhereInput;
-    orderBy?: AnswerOrderByInput;
+  attendees: <T = FragmentableArray<Attendee>>(args?: {
+    where?: AttendeeWhereInput;
+    orderBy?: AttendeeOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1409,9 +1804,9 @@ export interface ClassSubscription
   name: () => Promise<AsyncIterator<String>>;
   post: <T = PostSubscription>() => T;
   published: () => Promise<AsyncIterator<Boolean>>;
-  answers: <T = Promise<AsyncIterator<AnswerSubscription>>>(args?: {
-    where?: AnswerWhereInput;
-    orderBy?: AnswerOrderByInput;
+  attendees: <T = Promise<AsyncIterator<AttendeeSubscription>>>(args?: {
+    where?: AttendeeWhereInput;
+    orderBy?: AttendeeOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1427,9 +1822,9 @@ export interface ClassNullablePromise
   name: () => Promise<String>;
   post: <T = PostPromise>() => T;
   published: () => Promise<Boolean>;
-  answers: <T = FragmentableArray<Answer>>(args?: {
-    where?: AnswerWhereInput;
-    orderBy?: AnswerOrderByInput;
+  attendees: <T = FragmentableArray<Attendee>>(args?: {
+    where?: AttendeeWhereInput;
+    orderBy?: AttendeeOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1613,6 +2008,15 @@ export interface FieldPromise extends Promise<Field>, Fragmentable {
   label: () => Promise<String>;
   type: () => Promise<String>;
   post: <T = PostPromise>() => T;
+  answers: <T = FragmentableArray<Answer>>(args?: {
+    where?: AnswerWhereInput;
+    orderBy?: AnswerOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface FieldSubscription
@@ -1622,6 +2026,15 @@ export interface FieldSubscription
   label: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<String>>;
   post: <T = PostSubscription>() => T;
+  answers: <T = Promise<AsyncIterator<AnswerSubscription>>>(args?: {
+    where?: AnswerWhereInput;
+    orderBy?: AnswerOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface FieldNullablePromise
@@ -1631,6 +2044,15 @@ export interface FieldNullablePromise
   label: () => Promise<String>;
   type: () => Promise<String>;
   post: <T = PostPromise>() => T;
+  answers: <T = FragmentableArray<Answer>>(args?: {
+    where?: AnswerWhereInput;
+    orderBy?: AnswerOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface AnswerConnection {
@@ -1706,6 +2128,62 @@ export interface AggregateAnswerPromise
 
 export interface AggregateAnswerSubscription
   extends Promise<AsyncIterator<AggregateAnswer>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AttendeeConnection {
+  pageInfo: PageInfo;
+  edges: AttendeeEdge[];
+}
+
+export interface AttendeeConnectionPromise
+  extends Promise<AttendeeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AttendeeEdge>>() => T;
+  aggregate: <T = AggregateAttendeePromise>() => T;
+}
+
+export interface AttendeeConnectionSubscription
+  extends Promise<AsyncIterator<AttendeeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AttendeeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAttendeeSubscription>() => T;
+}
+
+export interface AttendeeEdge {
+  node: Attendee;
+  cursor: String;
+}
+
+export interface AttendeeEdgePromise
+  extends Promise<AttendeeEdge>,
+    Fragmentable {
+  node: <T = AttendeePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AttendeeEdgeSubscription
+  extends Promise<AsyncIterator<AttendeeEdge>>,
+    Fragmentable {
+  node: <T = AttendeeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateAttendee {
+  count: Int;
+}
+
+export interface AggregateAttendeePromise
+  extends Promise<AggregateAttendee>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAttendeeSubscription
+  extends Promise<AsyncIterator<AggregateAttendee>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1986,6 +2464,50 @@ export interface AnswerPreviousValuesSubscription
   value: () => Promise<AsyncIterator<String>>;
 }
 
+export interface AttendeeSubscriptionPayload {
+  mutation: MutationType;
+  node: Attendee;
+  updatedFields: String[];
+  previousValues: AttendeePreviousValues;
+}
+
+export interface AttendeeSubscriptionPayloadPromise
+  extends Promise<AttendeeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = AttendeePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AttendeePreviousValuesPromise>() => T;
+}
+
+export interface AttendeeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AttendeeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AttendeeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AttendeePreviousValuesSubscription>() => T;
+}
+
+export interface AttendeePreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface AttendeePreviousValuesPromise
+  extends Promise<AttendeePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface AttendeePreviousValuesSubscription
+  extends Promise<AsyncIterator<AttendeePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
 export interface ClassSubscriptionPayload {
   mutation: MutationType;
   node: Class;
@@ -2244,6 +2766,10 @@ export const models: Model[] = [
   },
   {
     name: "Class",
+    embedded: false
+  },
+  {
+    name: "Attendee",
     embedded: false
   },
   {

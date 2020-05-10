@@ -1,4 +1,4 @@
-import React, {Fragment, useLayoutEffect, useState} from 'react'
+import React, {Fragment, useEffect, useLayoutEffect, useState} from 'react'
 import {makeStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
@@ -35,11 +35,17 @@ function useWindowSize() {
     return size;
 }
 
-const QrComponent = ({postId}) => {
+const QrComponent = ({postId, selectedClassId, refresh}) => {
     const classes = useStyles();
     const [className, setClassName] = useState('');
     const [keyValue, setKeyValue] = useState('');
     const [createClass, {loading}] = useMutation(CREATE_CLASS_MUTATION);
+
+
+    useEffect(() => {
+        setKeyValue(selectedClassId)
+    }, [selectedClassId]);
+
 
     const QRvalue = DOMAIN + keyValue;
 
@@ -71,7 +77,7 @@ const QrComponent = ({postId}) => {
                                 name : className,
                                 postId
                             }
-                        }).then(({data}) => setKeyValue(data.createClass.id))}>
+                        }).then(({data}) => setKeyValue(data.createClass.id)).then(() => refresh())}>
                         Generate QR and Key
                     </Button>
 

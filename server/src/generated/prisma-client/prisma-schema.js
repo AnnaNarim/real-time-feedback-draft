@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateAttendee {
+  count: Int!
+}
+
 type AggregateClass {
   count: Int!
 }
@@ -26,7 +30,8 @@ type AggregateUser {
 type Answer {
   id: ID!
   value: String!
-  class: Class!
+  author: Attendee!
+  field: Field
 }
 
 type AnswerConnection {
@@ -38,17 +43,30 @@ type AnswerConnection {
 input AnswerCreateInput {
   id: ID
   value: String!
-  class: ClassCreateOneWithoutAnswersInput!
+  author: AttendeeCreateOneWithoutAnswersInput!
+  field: FieldCreateOneWithoutAnswersInput
 }
 
-input AnswerCreateManyWithoutClassInput {
-  create: [AnswerCreateWithoutClassInput!]
+input AnswerCreateManyWithoutAuthorInput {
+  create: [AnswerCreateWithoutAuthorInput!]
   connect: [AnswerWhereUniqueInput!]
 }
 
-input AnswerCreateWithoutClassInput {
+input AnswerCreateManyWithoutFieldInput {
+  create: [AnswerCreateWithoutFieldInput!]
+  connect: [AnswerWhereUniqueInput!]
+}
+
+input AnswerCreateWithoutAuthorInput {
   id: ID
   value: String!
+  field: FieldCreateOneWithoutAnswersInput
+}
+
+input AnswerCreateWithoutFieldInput {
+  id: ID
+  value: String!
+  author: AttendeeCreateOneWithoutAnswersInput!
 }
 
 type AnswerEdge {
@@ -122,7 +140,8 @@ input AnswerSubscriptionWhereInput {
 
 input AnswerUpdateInput {
   value: String
-  class: ClassUpdateOneRequiredWithoutAnswersInput
+  author: AttendeeUpdateOneRequiredWithoutAnswersInput
+  field: FieldUpdateOneWithoutAnswersInput
 }
 
 input AnswerUpdateManyDataInput {
@@ -133,14 +152,26 @@ input AnswerUpdateManyMutationInput {
   value: String
 }
 
-input AnswerUpdateManyWithoutClassInput {
-  create: [AnswerCreateWithoutClassInput!]
+input AnswerUpdateManyWithoutAuthorInput {
+  create: [AnswerCreateWithoutAuthorInput!]
   delete: [AnswerWhereUniqueInput!]
   connect: [AnswerWhereUniqueInput!]
   set: [AnswerWhereUniqueInput!]
   disconnect: [AnswerWhereUniqueInput!]
-  update: [AnswerUpdateWithWhereUniqueWithoutClassInput!]
-  upsert: [AnswerUpsertWithWhereUniqueWithoutClassInput!]
+  update: [AnswerUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [AnswerUpsertWithWhereUniqueWithoutAuthorInput!]
+  deleteMany: [AnswerScalarWhereInput!]
+  updateMany: [AnswerUpdateManyWithWhereNestedInput!]
+}
+
+input AnswerUpdateManyWithoutFieldInput {
+  create: [AnswerCreateWithoutFieldInput!]
+  delete: [AnswerWhereUniqueInput!]
+  connect: [AnswerWhereUniqueInput!]
+  set: [AnswerWhereUniqueInput!]
+  disconnect: [AnswerWhereUniqueInput!]
+  update: [AnswerUpdateWithWhereUniqueWithoutFieldInput!]
+  upsert: [AnswerUpsertWithWhereUniqueWithoutFieldInput!]
   deleteMany: [AnswerScalarWhereInput!]
   updateMany: [AnswerUpdateManyWithWhereNestedInput!]
 }
@@ -150,19 +181,36 @@ input AnswerUpdateManyWithWhereNestedInput {
   data: AnswerUpdateManyDataInput!
 }
 
-input AnswerUpdateWithoutClassDataInput {
+input AnswerUpdateWithoutAuthorDataInput {
   value: String
+  field: FieldUpdateOneWithoutAnswersInput
 }
 
-input AnswerUpdateWithWhereUniqueWithoutClassInput {
-  where: AnswerWhereUniqueInput!
-  data: AnswerUpdateWithoutClassDataInput!
+input AnswerUpdateWithoutFieldDataInput {
+  value: String
+  author: AttendeeUpdateOneRequiredWithoutAnswersInput
 }
 
-input AnswerUpsertWithWhereUniqueWithoutClassInput {
+input AnswerUpdateWithWhereUniqueWithoutAuthorInput {
   where: AnswerWhereUniqueInput!
-  update: AnswerUpdateWithoutClassDataInput!
-  create: AnswerCreateWithoutClassInput!
+  data: AnswerUpdateWithoutAuthorDataInput!
+}
+
+input AnswerUpdateWithWhereUniqueWithoutFieldInput {
+  where: AnswerWhereUniqueInput!
+  data: AnswerUpdateWithoutFieldDataInput!
+}
+
+input AnswerUpsertWithWhereUniqueWithoutAuthorInput {
+  where: AnswerWhereUniqueInput!
+  update: AnswerUpdateWithoutAuthorDataInput!
+  create: AnswerCreateWithoutAuthorInput!
+}
+
+input AnswerUpsertWithWhereUniqueWithoutFieldInput {
+  where: AnswerWhereUniqueInput!
+  update: AnswerUpdateWithoutFieldDataInput!
+  create: AnswerCreateWithoutFieldInput!
 }
 
 input AnswerWhereInput {
@@ -194,13 +242,231 @@ input AnswerWhereInput {
   value_not_starts_with: String
   value_ends_with: String
   value_not_ends_with: String
-  class: ClassWhereInput
+  author: AttendeeWhereInput
+  field: FieldWhereInput
   AND: [AnswerWhereInput!]
   OR: [AnswerWhereInput!]
   NOT: [AnswerWhereInput!]
 }
 
 input AnswerWhereUniqueInput {
+  id: ID
+}
+
+type Attendee {
+  id: ID!
+  name: String!
+  answers(where: AnswerWhereInput, orderBy: AnswerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Answer!]
+  class: Class!
+}
+
+type AttendeeConnection {
+  pageInfo: PageInfo!
+  edges: [AttendeeEdge]!
+  aggregate: AggregateAttendee!
+}
+
+input AttendeeCreateInput {
+  id: ID
+  name: String
+  answers: AnswerCreateManyWithoutAuthorInput
+  class: ClassCreateOneWithoutAttendeesInput!
+}
+
+input AttendeeCreateManyWithoutClassInput {
+  create: [AttendeeCreateWithoutClassInput!]
+  connect: [AttendeeWhereUniqueInput!]
+}
+
+input AttendeeCreateOneWithoutAnswersInput {
+  create: AttendeeCreateWithoutAnswersInput
+  connect: AttendeeWhereUniqueInput
+}
+
+input AttendeeCreateWithoutAnswersInput {
+  id: ID
+  name: String
+  class: ClassCreateOneWithoutAttendeesInput!
+}
+
+input AttendeeCreateWithoutClassInput {
+  id: ID
+  name: String
+  answers: AnswerCreateManyWithoutAuthorInput
+}
+
+type AttendeeEdge {
+  node: Attendee!
+  cursor: String!
+}
+
+enum AttendeeOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type AttendeePreviousValues {
+  id: ID!
+  name: String!
+}
+
+input AttendeeScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [AttendeeScalarWhereInput!]
+  OR: [AttendeeScalarWhereInput!]
+  NOT: [AttendeeScalarWhereInput!]
+}
+
+type AttendeeSubscriptionPayload {
+  mutation: MutationType!
+  node: Attendee
+  updatedFields: [String!]
+  previousValues: AttendeePreviousValues
+}
+
+input AttendeeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: AttendeeWhereInput
+  AND: [AttendeeSubscriptionWhereInput!]
+  OR: [AttendeeSubscriptionWhereInput!]
+  NOT: [AttendeeSubscriptionWhereInput!]
+}
+
+input AttendeeUpdateInput {
+  name: String
+  answers: AnswerUpdateManyWithoutAuthorInput
+  class: ClassUpdateOneRequiredWithoutAttendeesInput
+}
+
+input AttendeeUpdateManyDataInput {
+  name: String
+}
+
+input AttendeeUpdateManyMutationInput {
+  name: String
+}
+
+input AttendeeUpdateManyWithoutClassInput {
+  create: [AttendeeCreateWithoutClassInput!]
+  delete: [AttendeeWhereUniqueInput!]
+  connect: [AttendeeWhereUniqueInput!]
+  set: [AttendeeWhereUniqueInput!]
+  disconnect: [AttendeeWhereUniqueInput!]
+  update: [AttendeeUpdateWithWhereUniqueWithoutClassInput!]
+  upsert: [AttendeeUpsertWithWhereUniqueWithoutClassInput!]
+  deleteMany: [AttendeeScalarWhereInput!]
+  updateMany: [AttendeeUpdateManyWithWhereNestedInput!]
+}
+
+input AttendeeUpdateManyWithWhereNestedInput {
+  where: AttendeeScalarWhereInput!
+  data: AttendeeUpdateManyDataInput!
+}
+
+input AttendeeUpdateOneRequiredWithoutAnswersInput {
+  create: AttendeeCreateWithoutAnswersInput
+  update: AttendeeUpdateWithoutAnswersDataInput
+  upsert: AttendeeUpsertWithoutAnswersInput
+  connect: AttendeeWhereUniqueInput
+}
+
+input AttendeeUpdateWithoutAnswersDataInput {
+  name: String
+  class: ClassUpdateOneRequiredWithoutAttendeesInput
+}
+
+input AttendeeUpdateWithoutClassDataInput {
+  name: String
+  answers: AnswerUpdateManyWithoutAuthorInput
+}
+
+input AttendeeUpdateWithWhereUniqueWithoutClassInput {
+  where: AttendeeWhereUniqueInput!
+  data: AttendeeUpdateWithoutClassDataInput!
+}
+
+input AttendeeUpsertWithoutAnswersInput {
+  update: AttendeeUpdateWithoutAnswersDataInput!
+  create: AttendeeCreateWithoutAnswersInput!
+}
+
+input AttendeeUpsertWithWhereUniqueWithoutClassInput {
+  where: AttendeeWhereUniqueInput!
+  update: AttendeeUpdateWithoutClassDataInput!
+  create: AttendeeCreateWithoutClassInput!
+}
+
+input AttendeeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  answers_every: AnswerWhereInput
+  answers_some: AnswerWhereInput
+  answers_none: AnswerWhereInput
+  class: ClassWhereInput
+  AND: [AttendeeWhereInput!]
+  OR: [AttendeeWhereInput!]
+  NOT: [AttendeeWhereInput!]
+}
+
+input AttendeeWhereUniqueInput {
   id: ID
 }
 
@@ -213,7 +479,7 @@ type Class {
   name: String!
   post: Post!
   published: Boolean!
-  answers(where: AnswerWhereInput, orderBy: AnswerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Answer!]
+  attendees(where: AttendeeWhereInput, orderBy: AttendeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Attendee!]
 }
 
 type ClassConnection {
@@ -227,7 +493,7 @@ input ClassCreateInput {
   name: String!
   post: PostCreateOneWithoutClassesInput!
   published: Boolean
-  answers: AnswerCreateManyWithoutClassInput
+  attendees: AttendeeCreateManyWithoutClassInput
 }
 
 input ClassCreateManyWithoutPostInput {
@@ -235,12 +501,12 @@ input ClassCreateManyWithoutPostInput {
   connect: [ClassWhereUniqueInput!]
 }
 
-input ClassCreateOneWithoutAnswersInput {
-  create: ClassCreateWithoutAnswersInput
+input ClassCreateOneWithoutAttendeesInput {
+  create: ClassCreateWithoutAttendeesInput
   connect: ClassWhereUniqueInput
 }
 
-input ClassCreateWithoutAnswersInput {
+input ClassCreateWithoutAttendeesInput {
   id: ID
   name: String!
   post: PostCreateOneWithoutClassesInput!
@@ -251,7 +517,7 @@ input ClassCreateWithoutPostInput {
   id: ID
   name: String!
   published: Boolean
-  answers: AnswerCreateManyWithoutClassInput
+  attendees: AttendeeCreateManyWithoutClassInput
 }
 
 type ClassEdge {
@@ -332,7 +598,7 @@ input ClassUpdateInput {
   name: String
   post: PostUpdateOneRequiredWithoutClassesInput
   published: Boolean
-  answers: AnswerUpdateManyWithoutClassInput
+  attendees: AttendeeUpdateManyWithoutClassInput
 }
 
 input ClassUpdateManyDataInput {
@@ -362,14 +628,14 @@ input ClassUpdateManyWithWhereNestedInput {
   data: ClassUpdateManyDataInput!
 }
 
-input ClassUpdateOneRequiredWithoutAnswersInput {
-  create: ClassCreateWithoutAnswersInput
-  update: ClassUpdateWithoutAnswersDataInput
-  upsert: ClassUpsertWithoutAnswersInput
+input ClassUpdateOneRequiredWithoutAttendeesInput {
+  create: ClassCreateWithoutAttendeesInput
+  update: ClassUpdateWithoutAttendeesDataInput
+  upsert: ClassUpsertWithoutAttendeesInput
   connect: ClassWhereUniqueInput
 }
 
-input ClassUpdateWithoutAnswersDataInput {
+input ClassUpdateWithoutAttendeesDataInput {
   name: String
   post: PostUpdateOneRequiredWithoutClassesInput
   published: Boolean
@@ -378,7 +644,7 @@ input ClassUpdateWithoutAnswersDataInput {
 input ClassUpdateWithoutPostDataInput {
   name: String
   published: Boolean
-  answers: AnswerUpdateManyWithoutClassInput
+  attendees: AttendeeUpdateManyWithoutClassInput
 }
 
 input ClassUpdateWithWhereUniqueWithoutPostInput {
@@ -386,9 +652,9 @@ input ClassUpdateWithWhereUniqueWithoutPostInput {
   data: ClassUpdateWithoutPostDataInput!
 }
 
-input ClassUpsertWithoutAnswersInput {
-  update: ClassUpdateWithoutAnswersDataInput!
-  create: ClassCreateWithoutAnswersInput!
+input ClassUpsertWithoutAttendeesInput {
+  update: ClassUpdateWithoutAttendeesDataInput!
+  create: ClassCreateWithoutAttendeesInput!
 }
 
 input ClassUpsertWithWhereUniqueWithoutPostInput {
@@ -429,9 +695,9 @@ input ClassWhereInput {
   post: PostWhereInput
   published: Boolean
   published_not: Boolean
-  answers_every: AnswerWhereInput
-  answers_some: AnswerWhereInput
-  answers_none: AnswerWhereInput
+  attendees_every: AttendeeWhereInput
+  attendees_some: AttendeeWhereInput
+  attendees_none: AttendeeWhereInput
   AND: [ClassWhereInput!]
   OR: [ClassWhereInput!]
   NOT: [ClassWhereInput!]
@@ -448,6 +714,7 @@ type Field {
   label: String!
   type: String!
   post: Post!
+  answers(where: AnswerWhereInput, orderBy: AnswerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Answer!]
 }
 
 type FieldConnection {
@@ -461,6 +728,7 @@ input FieldCreateInput {
   label: String!
   type: String!
   post: PostCreateOneWithoutFieldsInput!
+  answers: AnswerCreateManyWithoutFieldInput
 }
 
 input FieldCreateManyWithoutPostInput {
@@ -468,10 +736,23 @@ input FieldCreateManyWithoutPostInput {
   connect: [FieldWhereUniqueInput!]
 }
 
+input FieldCreateOneWithoutAnswersInput {
+  create: FieldCreateWithoutAnswersInput
+  connect: FieldWhereUniqueInput
+}
+
+input FieldCreateWithoutAnswersInput {
+  id: ID
+  label: String!
+  type: String!
+  post: PostCreateOneWithoutFieldsInput!
+}
+
 input FieldCreateWithoutPostInput {
   id: ID
   label: String!
   type: String!
+  answers: AnswerCreateManyWithoutFieldInput
 }
 
 type FieldEdge {
@@ -564,6 +845,7 @@ input FieldUpdateInput {
   label: String
   type: String
   post: PostUpdateOneRequiredWithoutFieldsInput
+  answers: AnswerUpdateManyWithoutFieldInput
 }
 
 input FieldUpdateManyDataInput {
@@ -593,14 +875,35 @@ input FieldUpdateManyWithWhereNestedInput {
   data: FieldUpdateManyDataInput!
 }
 
+input FieldUpdateOneWithoutAnswersInput {
+  create: FieldCreateWithoutAnswersInput
+  update: FieldUpdateWithoutAnswersDataInput
+  upsert: FieldUpsertWithoutAnswersInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: FieldWhereUniqueInput
+}
+
+input FieldUpdateWithoutAnswersDataInput {
+  label: String
+  type: String
+  post: PostUpdateOneRequiredWithoutFieldsInput
+}
+
 input FieldUpdateWithoutPostDataInput {
   label: String
   type: String
+  answers: AnswerUpdateManyWithoutFieldInput
 }
 
 input FieldUpdateWithWhereUniqueWithoutPostInput {
   where: FieldWhereUniqueInput!
   data: FieldUpdateWithoutPostDataInput!
+}
+
+input FieldUpsertWithoutAnswersInput {
+  update: FieldUpdateWithoutAnswersDataInput!
+  create: FieldCreateWithoutAnswersInput!
 }
 
 input FieldUpsertWithWhereUniqueWithoutPostInput {
@@ -653,6 +956,9 @@ input FieldWhereInput {
   type_ends_with: String
   type_not_ends_with: String
   post: PostWhereInput
+  answers_every: AnswerWhereInput
+  answers_some: AnswerWhereInput
+  answers_none: AnswerWhereInput
   AND: [FieldWhereInput!]
   OR: [FieldWhereInput!]
   NOT: [FieldWhereInput!]
@@ -671,6 +977,12 @@ type Mutation {
   upsertAnswer(where: AnswerWhereUniqueInput!, create: AnswerCreateInput!, update: AnswerUpdateInput!): Answer!
   deleteAnswer(where: AnswerWhereUniqueInput!): Answer
   deleteManyAnswers(where: AnswerWhereInput): BatchPayload!
+  createAttendee(data: AttendeeCreateInput!): Attendee!
+  updateAttendee(data: AttendeeUpdateInput!, where: AttendeeWhereUniqueInput!): Attendee
+  updateManyAttendees(data: AttendeeUpdateManyMutationInput!, where: AttendeeWhereInput): BatchPayload!
+  upsertAttendee(where: AttendeeWhereUniqueInput!, create: AttendeeCreateInput!, update: AttendeeUpdateInput!): Attendee!
+  deleteAttendee(where: AttendeeWhereUniqueInput!): Attendee
+  deleteManyAttendees(where: AttendeeWhereInput): BatchPayload!
   createClass(data: ClassCreateInput!): Class!
   updateClass(data: ClassUpdateInput!, where: ClassWhereUniqueInput!): Class
   updateManyClasses(data: ClassUpdateManyMutationInput!, where: ClassWhereInput): BatchPayload!
@@ -1135,6 +1447,9 @@ type Query {
   answer(where: AnswerWhereUniqueInput!): Answer
   answers(where: AnswerWhereInput, orderBy: AnswerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Answer]!
   answersConnection(where: AnswerWhereInput, orderBy: AnswerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AnswerConnection!
+  attendee(where: AttendeeWhereUniqueInput!): Attendee
+  attendees(where: AttendeeWhereInput, orderBy: AttendeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Attendee]!
+  attendeesConnection(where: AttendeeWhereInput, orderBy: AttendeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AttendeeConnection!
   class(where: ClassWhereUniqueInput!): Class
   classes(where: ClassWhereInput, orderBy: ClassOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Class]!
   classesConnection(where: ClassWhereInput, orderBy: ClassOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ClassConnection!
@@ -1152,6 +1467,7 @@ type Query {
 
 type Subscription {
   answer(where: AnswerSubscriptionWhereInput): AnswerSubscriptionPayload
+  attendee(where: AttendeeSubscriptionWhereInput): AttendeeSubscriptionPayload
   class(where: ClassSubscriptionWhereInput): ClassSubscriptionPayload
   field(where: FieldSubscriptionWhereInput): FieldSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload

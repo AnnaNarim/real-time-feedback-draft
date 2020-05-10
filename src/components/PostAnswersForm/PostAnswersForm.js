@@ -1,6 +1,6 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useRef, useState} from 'react'
 import {gql} from 'apollo-boost'
-import {useQuery} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {makeStyles} from "@material-ui/core/styles";
@@ -10,13 +10,15 @@ import PublishPost from "../Post/PostPublish";
 import UpdatePost from "../Post/PostEdit";
 import {Paper} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import {DRAFTS} from "../../constant";
+import {ANSWER, DRAFTS} from "../../constant";
 import TextField from "@material-ui/core/TextField/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import {clone} from "../../lib/jsUtils";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import {useForm, Controller} from "react-hook-form";
+import {ThanksForSubmitting, TimeIsOut} from "./ThanksForSubmitting";
 
 const FIELDS_QUERY = gql`
     query AnswerFormQuery($id: ID!) {
@@ -24,6 +26,10 @@ const FIELDS_QUERY = gql`
             id
             name
             post {
+                title
+                content
+                anonymous
+                answerType
                 id
                 fields{
                     id
@@ -37,6 +43,14 @@ const FIELDS_QUERY = gql`
     }
 `;
 
+const CREATE_ATTENDEE = gql`
+    mutation CreateAttendee($name:String!, $answers:[inputAnswer!]!, $classId:ID! ) {
+        createAttendee(name:$name,answers: $answers ,classId: $classId) {
+            id
+        }
+    }
+`;
+
 const useStyles = makeStyles((theme) => ({
     backdrop : {
         zIndex : theme.zIndex.drawer + 1
@@ -44,67 +58,107 @@ const useStyles = makeStyles((theme) => ({
     root     : {
         padding : '2em'
     }
-
 }));
 
-
 const SinglePostView = (props) => {
-    const {match, history} = props,
+    const {match} = props,
         {params = {}} = match,
         {id} = params;
 
-    if(!id)
-        return <Redirect to={'/'}/>;
-
-
     const classes = useStyles();
-    const {loading, data = {}, refetch} = useQuery(FIELDS_QUERY, {
+    const {control, handleSubmit, watch, errors} = useForm();
+    const {loading, data = {}} = useQuery(FIELDS_QUERY, {
         variables : {id},
         options   : {fetchPolicy : 'network-only'}
     });
 
-    const refresh = () => refetch();
-
-    const {class : postClass = {}} = data;
-
-    if(!postClass)
-        return <Redirect to={'/'}/>;
+    const [createAttendee, {loading : submitting}] = useMutation(CREATE_ATTENDEE);
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
 
-    const {name, post = {}, published, anonymous} = postClass;
+    if(!id)
+        return <Redirect to={ANSWER}/>;
 
-    const {fields = []} = post;
+    const {class : postClass} = data;
 
+    if(loading) {
+        return <Backdrop className={classes.backdrop} open={true}>
+            <CircularProgress color="inherit"/>
+        </Backdrop>
+    }
+
+    if(postClass === null || postClass === undefined)
+        return <Redirect to={ANSWER}/>;
+
+
+    const {name, post = {}, published} = postClass,
+        {fields = [], title, content, anonymous} = post;
+
+    const onSubmit = ({name = "Anonymous", ...fields}) => {
+        const answers = Object.keys(fields).reduce((accum, key) => {
+            const answer = {field : {id : key}, value : fields[key]};
+            accum.push(answer);
+            return accum;
+        }, []);
+        createAttendee({variables : {name : name, answers, classId : id}})
+            .then(() => setIsSubmitted(true));
+    };
 
     if(published === false) {
-        return <h1>Oooops time is out!!</h1>
+        return <TimeIsOut/>
+    }
+
+    if(isSubmitted) {
+        return <ThanksForSubmitting/>
     }
 
     return (
         <Container fixed className={classes.root}>
-            <Backdrop className={classes.backdrop} open={loading}>
+            <Backdrop className={classes.backdrop} open={submitting}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
 
-            <Typography align='center'>Class {name}</Typography>
+            <Typography variant='h3' align='center'>Class {name}</Typography>
+            <Typography variant='h4' align='left'>{title}</Typography>
+            <Typography variant='h6' align='left'> {content}</Typography>
 
-            {fields.map(field => {
-                return <TextField
-                    fullWidth
-                    margin='normal'
-                    variant="outlined"
-                    label={field.label}
-                    onChange={({target}) => {
-                    }}
-                />
-            })}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {!anonymous ?
+                    <Controller
+                        label="Name"
+                        fullWidth
+                        margin='normal'
+                        variant="outlined"
+                        as={TextField}
+                        rules={{required : true}}
+                        error={!!errors.name}
+                        helperText={!!errors.name ? "This field is required" : "Please enter name"}
+                        name='name'
+                        defaultValue={''}
+                        control={control}
+                    /> : null
+                }
 
-            <Button
-                color='primary'
-                variant="contained"
-            >
-                Submit Answers
-            </Button>
+                {
+                    fields.map(({id, label}) => (
+                        <Controller
+                            key={id}
+                            label={label}
+                            margin='normal'
+                            variant="outlined"
+                            as={TextField}
+                            rules={{required : true}}
+                            error={!!errors[id]}
+                            helperText={!!errors[id] ? "This field is required" : ''}
+                            name={id}
+                            control={control}
+                            fullWidth
+                            defaultValue={''}
+                        />
+                    ))}
+
+                <Button color="primary" variant="contained" type="submit" disabled={isSubmitted}>Submit Answers</Button>
+            </form>
         </Container>
     )
 };

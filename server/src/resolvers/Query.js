@@ -21,7 +21,7 @@ const Query = {
     return context.prisma.post({ id })
   },
   me(parent, args, context) {
-    const id = getUserId(context)
+    const id = getUserId(context);
     return context.prisma.user({ id })
   },
   classes(parent, { id }, context) {
@@ -40,4 +40,4 @@ const Query = {
   }
 }
 
-module.exports = { Query }
+module.exports = { Query };
