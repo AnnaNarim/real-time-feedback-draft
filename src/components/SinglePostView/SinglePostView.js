@@ -8,14 +8,13 @@ import {Redirect, withRouter} from "react-router-dom";
 import DeletePost from "../Post/PostDelete";
 import UpdatePost from "../Post/PostEdit";
 import {Paper} from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
 import QrComponent from "./QrComponent";
-import ChartsComponent from "./ChartsComponent";
 import {DRAFTS} from "../../constant";
 import TextField from "@material-ui/core/TextField/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import PublishClass from "./ClassPublish";
 import Typography from "@material-ui/core/Typography";
+import CommentsPageWithData from "./ClassInfoSubscription";
 
 const POST_QUERY = gql`
     query PostQuery($id: ID!) {
@@ -24,6 +23,7 @@ const POST_QUERY = gql`
             title
             content
             published
+            anonymous
             author {
                 name
             }
@@ -104,7 +104,7 @@ const SinglePostView = (props) => {
         return <Redirect to={'/'}/>;
 
 
-    const {title, content, published, classes : postClasses = []} = post;
+    const {title, content, anonymous, classes : postClasses = []} = post;
 
     return (
         <Fragment>
@@ -129,16 +129,19 @@ const SinglePostView = (props) => {
 
                         <div style={{
                             display        : "flex",
-                            paddingTop     : 10,
                             flexDirection  : "row",
-                            justifyContent : 'flex-end'
+                            justifyContent : 'space-between',
+                            alignItems     : "center"
                         }}>
+                            <Typography color='textSecondary'>Answers are {!anonymous ? "not" : ''} anonymous</Typography>
                             {/*<PublishPost id={id} isPublished={!!published} refresh={refresh}/>*/}
-                            <DeletePost title={title} id={id} refresh={() => history.push({
-                                pathname : DRAFTS,
-                                state    : {shouldRefetch : true}
-                            })}/>
-                            <UpdatePost title={title} id={id} content={content} refresh={() => refresh()}/>
+                            <div>
+                                <DeletePost title={title} id={id} refresh={() => history.push({
+                                    pathname : DRAFTS,
+                                    state    : {shouldRefetch : true}
+                                })}/>
+                                <UpdatePost title={title} id={id} content={content} refresh={() => refresh()}/>
+                            </div>
                         </div>
 
 
@@ -176,10 +179,11 @@ const SinglePostView = (props) => {
                 </div>
                 <div>
                     <Paper elevation={6} className={classes.paper}>
-                        {selectedClassId ? <ChartsComponent key={selectedClassId} classId={selectedClassId}/> :
+                        {selectedClassId ? <CommentsPageWithData selectedClassId={selectedClassId}/> :
                             <div className={classes.sectionPlaceholder}>
                                 <Typography variant='h2' align='center'>Please select class</Typography>
-                            </div>}
+                            </div>
+                        }
                     </Paper>
                 </div>
             </div>

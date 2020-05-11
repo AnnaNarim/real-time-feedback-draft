@@ -10,7 +10,6 @@ import Container from "@material-ui/core/Container";
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import Paper from "@material-ui/core/Paper";
 
 const DRAFTS_QUERY = gql`
     query DraftsQuery {
@@ -41,7 +40,7 @@ const DraftsPage = (props) => {
     const [needRefetch, setNeedRefetch] = useState(shouldRefetch);
 
     const classes = useStyles();
-    const {loading, error, data = {}, refetch} = useQuery(DRAFTS_QUERY, {
+    const {loading, data = {}, refetch} = useQuery(DRAFTS_QUERY, {
         options : {fetchPolicy : 'network-only',}
     });
     const {drafts = []} = data;
@@ -50,8 +49,6 @@ const DraftsPage = (props) => {
         refetch();
         setNeedRefetch(false);
     }
-
-
 
     return (
         <Fragment>

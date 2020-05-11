@@ -73,7 +73,7 @@ const EditPostConfirmDialog = ({title : PropsTitle, content : PropsContent, onCo
     const [validInfo, setValidInfo] = useState(VALIDATION_INITIAL_STATE);
 
     const {title, content} = info,
-        {isValid, errorMsgs = {}} = validInfo;
+        {errorMsgs = {}} = validInfo;
 
     useEffect(() => {
         if(!validInfo.isValid) {

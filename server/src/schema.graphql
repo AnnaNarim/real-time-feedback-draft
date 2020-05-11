@@ -28,6 +28,8 @@ type Mutation {
 
 type Subscription {
   feedSubscription: Post
+  classSubscription: Class
+  attendeeSubscription (classId: ID!): Class
 }
 
 type AuthPayload {
@@ -89,7 +91,7 @@ type Attendee{
   id: ID!
   name: String
   answers: [Answer!]
-  class:Class!
+  class:Class
   createdAt : String!
 }
 

@@ -1,5 +1,5 @@
 import {gql} from "apollo-boost";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useState} from "react";
 import {useMutation} from "@apollo/react-hooks";
 import {makeStyles} from "@material-ui/core/styles";
 import {DRAFTS} from "../../constant";
@@ -8,12 +8,12 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
-import {clone, findFirst} from "../../lib/jsUtils";
+import {findFirst} from "../../lib/jsUtils";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import {Controller, ErrorMessage, useFieldArray, useForm} from "react-hook-form";
+import {Controller, useFieldArray, useForm} from "react-hook-form";
 
 const CREATE_DRAFT_MUTATION = gql`
     mutation CreateDraftMutation($title: String!,$anonymous:Boolean!, $content: String!, $answerType:String!, $fields:[inputField!]! ) {

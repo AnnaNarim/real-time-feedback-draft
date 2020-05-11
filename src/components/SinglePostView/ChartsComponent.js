@@ -1,7 +1,4 @@
 import React, {Fragment, useState} from 'react';
-import {gql} from "apollo-boost";
-import {useQuery} from "@apollo/react-hooks";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
@@ -23,40 +20,8 @@ import List from "@material-ui/core/List";
 import CloseIcon from '@material-ui/icons/Close';
 import PercentageChart from "./PercentageChart";
 import moment from 'moment';
-import {Checkbox} from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-
-const CLASS_INFO_QUERY = gql`
-    query ClassInfoQUery($id: ID!) {
-        class(id: $id) {
-            id
-            name
-            attendees{
-                id
-                name
-                createdAt
-            }
-            post {
-                anonymous
-                answerType
-                fields{
-                    id
-                    label
-                    type
-                    relativeClassAnswers(classId:$id){
-                        id
-                        value
-                        author{
-                            name
-                        }
-                    }
-                }
-            }
-        }
-    }
-`;
 
 const useStyles = makeStyles((theme) => ({
     appBar : {
@@ -117,23 +82,12 @@ const renderMixedTypeAnswers = (fields, {submittedFormsCount, showNames}) => {
     </div>;
 };
 
-const ChartsComponent = (props) => {
-    const {classId = ''} = props;
+const ChartsComponent = ({data}) => {
 
     const [showNames, setShowNames] = useState(false);
 
-    const {loading, data = {}} = useQuery(CLASS_INFO_QUERY, {
-        variables : {id : classId},
-        options   : {fetchPolicy : 'network-only'}
-    });
-
-    if(loading)
-        return <div style={{display : "grid", height : "100%", alignItems : "center", justifyItems : "center"}}>
-            <CircularProgress/>
-        </div>;
-
     const {class : classInfo = {}} = data,
-        {id, post, attendees = []} = classInfo,
+        {post, attendees = []} = classInfo,
         {answerType, anonymous, fields} = post;
 
     const submittedFormsCount = attendees.length;

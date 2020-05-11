@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import {ROOM, BLOG, CREATE_NEW_POST, DRAFTS} from "../../constant";
-import {makeStyles} from '@material-ui/core/styles';
+import {CREATE_NEW_POST, DRAFTS, ROOM} from "../../constant";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,17 +9,17 @@ import Dialog from '@material-ui/core/Dialog';
 import {signOut} from "../../lib/jsUtils";
 
 
-const useStyles = makeStyles((theme) => ({
-    root  : {
-        width           : '100%',
-        maxWidth        : 360,
-        backgroundColor : theme.palette.background.paper,
-    },
-    paper : {
-        width     : '80%',
-        maxHeight : 435,
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     root  : {
+//         width           : '100%',
+//         maxWidth        : 360,
+//         backgroundColor : theme.palette.background.paper,
+//     },
+//     paper : {
+//         width     : '80%',
+//         maxHeight : 435,
+//     },
+// }));
 
 
 const AuthenticatedNavBar = () => {
@@ -53,7 +52,6 @@ const LogOutDialog = () => {
         setOpen(false);
         signOut();
         window.location.href = '/'
-        //TODO :implement right log out logic
     };
 
     return (
@@ -65,7 +63,7 @@ const LogOutDialog = () => {
         >
             <DialogTitle id="confirmation-dialog-title">Log Out Confirmation</DialogTitle>
             <DialogContent dividers>
-                Are you sure you want to logout? &#128561;
+                Are you sure you want to logout? <span aria-label='sad' role='img'> &#128561;</span>
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel} color="default">
