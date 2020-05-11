@@ -2,7 +2,7 @@ import {gql} from "apollo-boost";
 import React, {useState} from "react";
 import {useMutation} from "@apollo/react-hooks";
 import {makeStyles} from "@material-ui/core/styles";
-import {DRAFTS} from "../../constant";
+import {ROOMS} from "../../constant";
 import {Redirect} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
@@ -62,7 +62,7 @@ const CreatePost = (props) => {
 
     if(redirectToReferrer) {
         return <Redirect to={{
-            pathname : DRAFTS,
+            pathname : ROOMS,
             state    : {shouldRefetch : true}
         }}/>
     }

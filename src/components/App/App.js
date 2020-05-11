@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import PrivateRoute from "./PrivateRoute"
-import {AUTH_TOKEN, BLOG, CREATE_NEW_POST, DRAFTS, ROOM, SIGN_IN, SIGN_UP, SINGLE_ROOM} from "../../constant";
+import {AUTH_TOKEN, BLOG, CREATE_NEW_POST, ROOMS, ROOM, SIGN_IN, SIGN_UP, SINGLE_ROOM} from "../../constant";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import {isAuthenticated} from "../../lib/jsUtils";
@@ -88,7 +88,7 @@ export default function App({token : PropsToken}) {
                             <SignUpSide {...props} refreshTokenFn={refreshTokenFn}/>}/>
 
                     <PrivateRoute path={CREATE_NEW_POST} component={CreatePost}/>
-                    <PrivateRoute path={DRAFTS} component={DraftsPage}/>
+                    <PrivateRoute path={ROOMS} component={DraftsPage}/>
                     <PrivateRoute path="/post/:id" component={SinglePostView}/>
 
                     <Route exact path={ROOM} component={AnswerPage}/>

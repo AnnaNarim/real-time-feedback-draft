@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import {CREATE_NEW_POST, DRAFTS, ROOM} from "../../constant";
+import {CREATE_NEW_POST, ROOMS, ROOM} from "../../constant";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -31,7 +31,7 @@ const AuthenticatedNavBar = () => {
         <Button component={Link} to={CREATE_NEW_POST}>
             Create Room
         </Button>
-        <Button component={Link} to={DRAFTS}>
+        <Button component={Link} to={ROOMS}>
             Rooms
         </Button>
         <Button onClick={() => setShowLogOutDialog(true)}>

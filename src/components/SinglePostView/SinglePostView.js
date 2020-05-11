@@ -9,7 +9,7 @@ import DeletePost from "../Post/PostDelete";
 import UpdatePost from "../Post/PostEdit";
 import {Paper} from "@material-ui/core";
 import QrComponent from "./QrComponent";
-import {DRAFTS} from "../../constant";
+import {ROOMS} from "../../constant";
 import TextField from "@material-ui/core/TextField/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import PublishClass from "./ClassPublish";
@@ -137,7 +137,7 @@ const SinglePostView = (props) => {
                             {/*<PublishPost id={id} isPublished={!!published} refresh={refresh}/>*/}
                             <div>
                                 <DeletePost title={title} id={id} refresh={() => history.push({
-                                    pathname : DRAFTS,
+                                    pathname : ROOMS,
                                     state    : {shouldRefetch : true}
                                 })}/>
                                 <UpdatePost title={title} id={id} content={content} refresh={() => refresh()}/>
