@@ -133,9 +133,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function FullScreenDialog({renderQr, keyValue}) {
-    const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [width, height] = useWindowSize();
+    const [width] = useWindowSize();
     const handleClickOpen = () => {
         setOpen(true);
     };

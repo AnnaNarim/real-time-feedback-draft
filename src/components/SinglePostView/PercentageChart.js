@@ -1,12 +1,20 @@
 import React from 'react';
 import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Label,
+    Legend,
     PolarAngleAxis,
     PolarGrid,
     PolarRadiusAxis,
     Radar,
     RadarChart,
+    Tooltip,
+    XAxis,
+    YAxis,
 } from 'recharts';
-import {toArray} from "../../lib/jsUtils";
+import Typography from "@material-ui/core/Typography";
 
 
 const templateData = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -25,43 +33,88 @@ const valuesReg = {
     '100' : 0
 };
 
-const processData = (fields, submittedFormsCount, valuesReg) => {
-    const answersArray = fields.map(f => toArray(f.relativeClassAnswers)).reduce((accum, aggr) => {
-        aggr.forEach(item => accum.push(item));
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for(var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
-        return accum;
-    }, []);
+const processData = (answers, submittedFormsCount) => {
 
-    answersArray.forEach(answer => {
+    const localValuesReg = {...valuesReg};
+    answers.forEach(answer => {
         const value = answer.value;
 
-        if(valuesReg[value] !== undefined) {
-            valuesReg[value] = valuesReg[value] + 1
+        if(localValuesReg[value] !== undefined) {
+            localValuesReg[value] = localValuesReg[value] + 1
         }
     });
 
     return templateData.map((val) => {
         return {
             subject  : val + "%",
-            A        : valuesReg[val],
+            A        : localValuesReg[val],
             fullMark : submittedFormsCount,
         }
     })
 };
 
-const PercentageChart = ({fields, submittedFormsCount}) => {
-    const data = processData(fields, submittedFormsCount, {...valuesReg});
+const computeAvg = (data) => {
+    const answersArr = data.map(item => Number(item.value));
 
-    return <div>
-        <RadarChart cx={300} cy={250} width={600} height={500} data={data}>
-            <PolarGrid/>
-            <PolarAngleAxis dataKey="subject"/>
-            <PolarRadiusAxis/>
-            <Radar name="Percentage Result" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
-        </RadarChart>
-    </div>
+
+    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+
+    return arrAvg(answersArr)
+
 };
 
+const getChartsData = (fields, submittedFormsCount) => {
+    return fields.map((field) => {
+
+        return {
+            key   : field.id,
+            title : field.label.length > 10 ? field.label.slice(0, 10) + '...' : field.label,
+            data  : processData(field.relativeClassAnswers, submittedFormsCount),
+            avg   : computeAvg(field.relativeClassAnswers),
+            color : getRandomColor()
+        }
+    })
+};
+
+const PercentageChart = ({fields, submittedFormsCount}) => {
+    const chartsInfo = getChartsData(fields, submittedFormsCount);
+
+    const data = chartsInfo.map(({title, avg}) => ({avg, title}));
+
+
+    return <div style={{display : "grid", gridTemplateColumns : "1fr 1fr", gridGap : "1em"}}>
+        {chartsInfo.map(({data, title, key, color}) => {
+            return <div key={key}>
+                <Typography align='center'>{title}</Typography>
+                <RadarChart cx={200} cy={115} width={350} height={250} data={data} key={key}>
+                    <Label value="Pages of my website" offset={0} position="insideBottom"/>
+                    <PolarGrid/>
+                    <PolarAngleAxis dataKey="subject"/>
+                    <PolarRadiusAxis/>
+                    <Radar name="Percentage Result" dataKey="A" stroke={color} fill={color} fillOpacity={0.6}/>
+                </RadarChart>
+            </div>
+        })}
+
+        <BarChart width={data.length * 200} barSize={100} height={250} data={data}>
+            <CartesianGrid strokeDasharray="3 3"/>
+            <XAxis dataKey="title"/>
+            <YAxis domain={[0, 100]}/>
+            <Tooltip/>
+            <Legend/>
+            <Bar dataKey="avg" fill={getRandomColor()}/>
+        </BarChart>
+    </div>
+};
 
 export default PercentageChart
 

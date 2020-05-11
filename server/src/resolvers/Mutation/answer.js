@@ -1,5 +1,5 @@
 const answer = {
-  async createAnswer(parent, {value, answers, fieldId}, context) {
+  async createAnswer(parent, {value, answers}, context) {
     return context.prisma.createAnswer({
       value,
       author

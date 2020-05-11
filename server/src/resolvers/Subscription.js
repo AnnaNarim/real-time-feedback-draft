@@ -11,6 +11,19 @@ const Subscription = {
       return payload
     },
   },
+
+  attendeeSubscription : {
+    subscribe : async (parent, {classId}, context) => {
+      return context.prisma.$subscribe
+          .attendee({
+            mutation_in : ['CREATED', 'UPDATED']
+          })
+          .node().class();
+    },
+    resolve   : payload => {
+      return payload
+    },
+  },
 }
 
-module.exports = { Subscription }
+module.exports = {Subscription};

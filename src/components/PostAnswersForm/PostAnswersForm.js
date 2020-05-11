@@ -60,7 +60,7 @@ const SinglePostView = (props) => {
         {id} = params;
 
     const classes = useStyles();
-    const {control, handleSubmit, watch, errors} = useForm();
+    const {control, handleSubmit, errors} = useForm();
     const {loading, data = {}} = useQuery(FIELDS_QUERY, {
         variables : {id},
         options   : {fetchPolicy : 'network-only'}
