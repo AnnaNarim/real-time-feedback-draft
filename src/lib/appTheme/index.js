@@ -5,7 +5,7 @@ export function getTheme() {
     return createMuiTheme({
         palette : {
             primary : {
-                main : '#1976d2'
+                main : '#008DA0'
             }
         }
     })

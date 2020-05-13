@@ -21,6 +21,12 @@ const CLASS_QUERY = gql`
 const useStyles = makeStyles((theme) => ({
     backdrop : {
         zIndex : theme.zIndex.drawer + 1
+    },
+    text: {
+        color: "#011627"
+    },
+    white: {
+        color: 'white'
     }
 }));
 
@@ -53,7 +59,7 @@ const AnswerPage = () => {
             style={{height : "100%"}}
         >
             <Grid item>
-                <Typography variant={'h3'}> Please specify room ID </Typography>
+                <Typography variant={'h4'} className={classes.text}> Please specify room ID </Typography>
                 <TextField
                     fullWidth
                     margin='normal'
@@ -63,7 +69,7 @@ const AnswerPage = () => {
                     error={classInfo.isError}
                     helperText={classInfo.isError ? "Please check room ID" : ''}
                 />
-                <Button disabled={classInfo.isError} variant='contained' color='primary' onClick={() => checkIsValid({variables : {id : classId}})}>
+                <Button className={classes.white} disabled={classInfo.isError} variant='contained' color='primary' onClick={() => checkIsValid({variables : {id : classId}})}>
                     Enter Room
                 </Button>
             </Grid>

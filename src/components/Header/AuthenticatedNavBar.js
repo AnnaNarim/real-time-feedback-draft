@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import {makeStyles} from '@material-ui/core/styles';
 import {CREATE_NEW_POST, ROOMS, ROOM} from "../../constant";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -9,32 +10,27 @@ import Dialog from '@material-ui/core/Dialog';
 import {signOut} from "../../lib/jsUtils";
 
 
-// const useStyles = makeStyles((theme) => ({
-//     root  : {
-//         width           : '100%',
-//         maxWidth        : 360,
-//         backgroundColor : theme.palette.background.paper,
-//     },
-//     paper : {
-//         width     : '80%',
-//         maxHeight : 435,
-//     },
-// }));
+const useStyles = makeStyles((theme) => ({
+    text: {
+        color: 'white'
+    }
+}));
 
 
 const AuthenticatedNavBar = () => {
+    const classes = useStyles();
     const [showLogoutDialog, setShowLogOutDialog] = useState(false);
     return <div>
-        <Button component={Link} to={ROOM}>
+        <Button component={Link} to={ROOM} className={classes.text}>
             Enter Room
         </Button>
-        <Button component={Link} to={CREATE_NEW_POST}>
+        <Button component={Link} to={CREATE_NEW_POST} className={classes.text}>
             Create Room
         </Button>
-        <Button component={Link} to={ROOMS}>
+        <Button component={Link} to={ROOMS} className={classes.text}>
             Rooms
         </Button>
-        <Button onClick={() => setShowLogOutDialog(true)}>
+        <Button onClick={() => setShowLogOutDialog(true)} className={classes.text}>
             Log Out
         </Button>
         {showLogoutDialog ? <LogOutDialog/> : null}

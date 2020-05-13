@@ -77,7 +77,7 @@ const CreatePost = (props) => {
     const generalAnswerType = watch("answerType");
 
     return <Container fixed>
-        <h1>Create Room</h1>
+        <h1 style={{ color: "#011627" }}>Create Room</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
                 autoFocus

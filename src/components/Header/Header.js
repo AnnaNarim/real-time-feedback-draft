@@ -7,13 +7,13 @@ import {SIGN_IN, SIGN_UP} from "../../constant";
 import {isAuthenticated} from "../../lib/jsUtils";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logo3.png";
 import AuthenticatedNavBar from "./AuthenticatedNavBar";
 import NonAuthenticatedNavBar from "./NonAuthenticatedNavBar";
 
 const useStyles = makeStyles(theme => ({
     appBar         : {
-        backgroundColor : "white",
+        backgroundColor : "#008DA0",
     },
     logoIcon       : {marginRight : '0.5em'},
     menuButton     : {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')] : {
             display : 'inline-block',
         },
-        color                        : "rgba(48,56,64,.9)",
+        color                        : "white",
         fontSize                     : "1.9rem",
         fontWeight                   : 500,
         fontFamily                   : 'Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol'
@@ -55,7 +55,7 @@ const Header = (props) => {
                         display="flex"
                         alignItems="center"
                     >
-                        <img src={Logo} alt="" width="60px" className={classes.logoIcon}/>
+                        <img src={Logo} alt="" width="50px" className={classes.logoIcon}/>
                         <Typography className={classes.title} variant="h6">
                             Real time feedo
                         </Typography>

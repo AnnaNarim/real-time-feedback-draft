@@ -17,6 +17,9 @@ const useStyles = makeStyles({
         display          : "grid",
         gridTemplateRows : "64px 1fr",
         height           : '100%'
+    },
+    body: {
+        backgroundColor: 'white'
     }
 });
 
@@ -34,7 +37,7 @@ const Layout = (props) => {
     return <div className={classes.root}>
         <CssBaseline/>
         <Header/>
-        <div>{children}</div>
+        <div className={classes.body}>{children}</div>
     </div>
 };
 

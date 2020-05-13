@@ -14,6 +14,7 @@ import CreatePost from "../CreatePost/CreatePost";
 import SinglePostView from "../SinglePostView/SinglePostView";
 import PostAnswersForm from "../PostAnswersForm/PostAnswersForm";
 import AnswerPage from "../PostAnswersForm/AnswerPage";
+import Public from "../Public/Public";
 
 // const ME_QUERY = gql`
 //   query MeQuery {
@@ -24,11 +25,6 @@ import AnswerPage from "../PostAnswersForm/AnswerPage";
 //     }
 //   }
 // `;
-
-
-const Public = () => <h3>Public</h3>;
-const Blog = () => <h3>Blog</h3>;
-const Protected = () => <h3>Protected</h3>;
 
 const verify = (setToken) => {
     try {
@@ -74,12 +70,7 @@ export default function App({token : PropsToken}) {
         <BrowserRouter>
             <Layout>
                 <Switch>
-                    {/*Example*/}
-                    <Route exact path="/public" component={Public}/>
-                    <PrivateRoute exact path='/protected' component={Protected}/>
-
                     <Route exact path='/' component={Public}/>
-                    <Route exact path={BLOG} component={Blog}/>
                     <Route exact path={SIGN_IN} render={(props) =>
                         isAuthenticated() ? <Redirect to={'/'}/> :
                             <SignInSide {...props} refreshTokenFn={refreshTokenFn}/>}/>

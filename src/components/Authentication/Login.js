@@ -1,25 +1,25 @@
 import React, {useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {gql} from "apollo-boost";
 import {useMutation} from "@apollo/react-hooks";
 import {Redirect} from "react-router-dom";
-import sideImage from '../../assets/image2.jpg';
+import sideImage from '../../assets/p.jpg';
 import {ROOM, ROOMS, SIGN_UP} from "../../constant";
+import LogoDark from "../../assets/logo-dark.png";
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://github.com/AnnaNarim/">
-                ANNA NARIM Production
+                ANNA NARIM
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundPosition : 'center',
     },
     paper  : {
-        margin        : theme.spacing(8, 4),
+        margin        : theme.spacing(10, 10),
         display       : 'flex',
         flexDirection : 'column',
         alignItems    : 'center',
@@ -98,14 +98,14 @@ export default function SignInSide(props) {
 
     return (
         <Grid container component="main" className={classes.root}>
-            <Grid item xs={false} sm={4} md={7} className={classes.image}/>
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Grid item xs={false} sm={4} md={5} className={classes.image}/>
+            <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
-                    </Avatar>
+                    <div style={{ textAlign: 'center', marginBottom: 15 }}>
+                        <img src={LogoDark} alt="" width="50px" />
+                    </div>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Log in
                     </Typography>
                     <form className={classes.form} noValidate onSubmit={(e) => {
                         e.preventDefault();
